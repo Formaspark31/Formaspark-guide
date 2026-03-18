@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FormaSpark — Espace opérationnel</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#1a1a2e;font-size:14px;line-height:1.6}
+:root{
+  --navy:#2D2D8B;--navyl:#EBEBF8;--navym:#C5C5EE;
+  --purple:#7B2FBE;--purplel:#F3EAFA;
+  --pink:#E0106A;--pinkl:#FDE8F2;
+  --greenl:#ECFDF5;--greent:#065F46;
+  --amberl:#FFFBEB;--ambert:#92400E;
+  --border:#E5E7EB;--text:#1a1a2e;--text2:#4B5563;--text3:#9CA3AF;
+}
+.app{max-width:900px;margin:0 auto;padding:16px}
+.hdr{border-bottom:2px solid var(--navy);padding:14px 0 12px}
+.brand{display:flex;align-items:center;gap:10px}
+.bicon{width:40px;height:40px;border-radius:50%;border:2.5px solid var(--purple);display:flex;align-items:center;justify-content:center}
+.bsvg{width:22px;height:22px;fill:none;stroke:var(--navy);stroke-width:3;stroke-linecap:round}
+.bname{font-size:20px;font-weight:600;color:var(--navy)}
+.bname em{color:var(--pink);font-style:normal}
+.btag{font-size:11px;color:var(--text3);margin-top:2px}
+.nav{display:flex;gap:4px;padding:14px 0 0;margin-bottom:20px;border-bottom:1px solid var(--border);overflow-x:auto}
+.nbtn{padding:9px 16px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:3px solid transparent;margin-bottom:-1px;border-radius:0;white-space:nowrap;font-family:inherit;transition:all .15s}
+.nbtn.on{color:var(--navy);border-bottom-color:var(--navy);background:var(--navyl);border-radius:8px 8px 0 0}
+.nbtn:hover:not(.on){color:var(--navy);background:#F3F4F6;border-radius:8px 8px 0 0}
+.pg{display:none}.pg.on{display:block}
+.flabel{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px}
+select,input[type=text],input[type=date]{width:100%;padding:10px 12px;font-size:13px;font-family:inherit;color:var(--text);background:#fff;border:1.5px solid var(--border);border-radius:8px}
+select:focus,input:focus{outline:none;border-color:var(--navy)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media(max-width:580px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.btn{font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;border-radius:8px;padding:10px 18px;border:none;display:inline-flex;align-items:center;gap:6px}
+.btn-n{background:var(--navy);color:#fff}
+.btn-n:hover{background:#23237A}
+.btn-r{background:#FEE2E2;color:#B91C1C}
+.btn-r:hover{background:#FECACA}
+.btn-w{width:100%;justify-content:center}
+.sarea{background:#F8F9FA;border-radius:12px;padding:14px 16px;margin-bottom:12px;border:1px solid var(--border)}
+.stitle{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.clabel{font-size:11px;font-weight:500;color:var(--purple);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 6px}
+.clabel:first-child{margin-top:0}
+.cgroup{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:7px 13px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--text2);transition:all .15s;white-space:nowrap;user-select:none}
+.chip:hover{border-color:var(--navy);color:var(--navy);background:var(--navyl)}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chip.on-fin{background:var(--pink);color:#fff;border-color:var(--pink)}
+.chip.on-canal{background:#065F46;color:#fff;border-color:#065F46}
+.fchip{padding:8px 12px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--text2);transition:all .15s;user-select:none}
+.fchip:hover{border-color:var(--navy);background:var(--navyl);color:var(--navy)}
+.fchip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.fname{display:block;font-size:12px;font-weight:500;pointer-events:none}
+.fmeta{display:flex;gap:6px;margin-top:3px;pointer-events:none}
+.fprice{font-size:11px;opacity:.75;pointer-events:none}
+.fdur{font-size:10px;opacity:.65;background:rgba(0,0,0,.08);padding:1px 5px;border-radius:3px;pointer-events:none}
+.fchip.on .fprice,.fchip.on .fdur{opacity:.85}
+.gzone{background:var(--navyl);border:1.5px solid var(--navym);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.gctx{font-size:13px;color:var(--navy);font-weight:500;flex:1}
+.pwrap{border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+.actx{background:var(--navy);color:#fff;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}
+.adot{width:8px;height:8px;border-radius:50%;background:var(--pink);flex-shrink:0}
+.phase{border-bottom:1px solid var(--border)}
+.phase:last-child{border-bottom:none}
+.phdr{padding:13px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.phdr:hover{background:#F8F9FA}
+.pnum{width:26px;height:26px;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.ptitle{font-size:14px;font-weight:500;flex:1}
+.pchev{font-size:12px;color:var(--text3);transition:transform .2s}
+.phdr.open .pchev{transform:rotate(90deg)}
+.pbody{display:none}
+.pbody.open{display:block}
+.slist{padding:4px 0 8px 52px}
+.sitem{padding:10px 16px 10px 0;border-bottom:1px dashed var(--border);display:flex;gap:12px}
+.sitem:last-child{border-bottom:none}
+.sn{width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background:#E9ECEF;color:var(--text2)}
+.sc .st{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.sc .sd{font-size:12px;color:var(--text2);line-height:1.55}
+.sbox{margin-top:8px;padding:9px 12px;background:var(--purplel);border-left:3px solid var(--purple);border-radius:0 6px 6px 0;font-size:12px;color:#3C1470;font-style:italic;line-height:1.6}
+.slbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--purple);margin-bottom:4px;font-style:normal;display:block}
+.wbox{margin-top:8px;padding:8px 12px;background:#FFFBEB;border-left:3px solid #F59E0B;border-radius:0 6px 6px 0;font-size:12px;color:#92400E}
+.qb{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;background:var(--purplel);color:var(--purple);margin-top:6px}
+.drow{padding:12px 16px;background:var(--navyl);display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--border)}
+.dlbl{font-size:11px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;margin-right:4px;white-space:nowrap}
+.dpill{font-size:11px;padding:3px 9px;border-radius:4px;background:#fff;border:1px solid var(--navym);color:var(--navy);font-weight:500}
+.inote{background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:10px 14px;font-size:12px;color:#92400E;margin-bottom:16px;display:flex;gap:8px}
+.csec{margin-bottom:16px}
+.chdr{background:var(--navy);color:#fff;padding:10px 14px;border-radius:8px 8px 0 0;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px}
+.cdot{width:8px;height:8px;border-radius:50%;background:var(--pink);flex-shrink:0}
+.ctbl{width:100%;border-collapse:collapse;border:1.5px solid var(--border);border-top:none}
+.ctbl th{background:#F8F9FA;padding:8px 12px;font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;text-align:left;border-bottom:1px solid var(--border)}
+.ctbl th:last-child,.ctbl td:last-child{text-align:right}
+.ctbl td{padding:10px 12px;font-size:13px;color:var(--text);border-bottom:1px solid var(--border)}
+.ctbl tr:last-child td{border-bottom:none}
+.ctbl tr:hover td{background:#F8F9FA}
+.ptag{font-weight:600;color:var(--navy)}
+.dpill2{font-size:11px;background:var(--navyl);color:var(--navy);padding:2px 7px;border-radius:4px;font-weight:500;white-space:nowrap}
+.mcard{border-radius:10px;padding:14px;text-align:center}
+.mcard .mv{font-size:28px;font-weight:600;line-height:1;margin-top:4px}
+.mcard .ml{font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.mc0{background:#F8F9FA;border:1px solid var(--border)}.mc0 .mv{color:var(--text)}.mc0 .ml{color:var(--text3)}
+.mc1{background:var(--navyl)}.mc1 .mv{color:var(--navy)}.mc1 .ml{color:#6366F1}
+.mc2{background:var(--amberl)}.mc2 .mv{color:var(--ambert)}.mc2 .ml{color:#B45309}
+.mc3{background:var(--pinkl)}.mc3 .mv{color:var(--pink)}.mc3 .ml{color:#9D174D}
+.fcard{background:#F8F9FA;border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:4px}
+.ftitle{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.fdott{width:8px;height:8px;border-radius:50%;background:var(--navy);flex-shrink:0}
+.twrap{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-top:16px;overflow-x:auto}
+table.dt{width:100%;border-collapse:collapse;font-size:13px;min-width:580px}
+table.dt th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+table.dt td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+table.dt tr:last-child td{border-bottom:none}
+table.dt tr:hover td{background:#F8F9FA}
+.ssel{font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-family:inherit;background:#fff;color:var(--text);width:100%}
+.sb{display:inline-block;font-size:11px;font-weight:500;padding:3px 8px;border-radius:5px}
+.sb0{background:var(--navyl);color:var(--navy)}
+.sb1{background:var(--amberl);color:var(--ambert)}
+.sb2{background:var(--pinkl);color:var(--pink)}
+.sb3{background:var(--greenl);color:var(--greent)}
+.pwbar{background:var(--navyl);border:1.5px solid var(--navym);border-radius:10px;padding:14px 16px;margin-bottom:16px}
+.pwtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pwsess{font-size:14px;font-weight:500;color:var(--navy)}
+.pwpct{font-size:22px;font-weight:600;color:var(--navy)}
+.pwtrack{height:8px;border-radius:4px;background:var(--navym);overflow:hidden}
+.pwfill{height:100%;border-radius:4px;background:var(--navy);transition:width .4s}
+.pwsub{font-size:12px;color:#6366F1;margin-top:6px}
+.qphase{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.qphdr{background:#F8F9FA;padding:12px 16px;font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.qpcnt{font-size:12px;font-weight:400;color:var(--text3)}
+.qrow{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer}
+.qrow:last-child{border-bottom:none}
+.qrow:hover{background:#F8F9FA}
+.qbox{width:18px;height:18px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+.qbox.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.qtxt{flex:1;font-size:13px;color:var(--text);line-height:1.5}
+.qtxt.done{color:var(--text3);text-decoration:line-through}
+.qind{font-size:10px;font-weight:500;color:var(--purple);margin-left:6px;background:var(--purplel);padding:1px 6px;border-radius:3px}
+.empty{padding:32px;text-align:center;color:var(--text3);border:1.5px dashed var(--border);border-radius:12px}
+.eico{font-size:28px;margin-bottom:8px;opacity:.3}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="hdr">
+  <div>
+    <div class="bname">Guide opérationnel FormaSpark</div>
+    <div class="btag">Procédures administratives · Catalogue &amp; tarifs · Certifié Qualiopi</div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nbtn on" onclick="goPage('guide',this)">Guide procédures</button>
+  <button class="nbtn" onclick="goPage('catalogue',this)">Catalogue &amp; tarifs</button>
+</div>
+
+<!-- GUIDE -->
+<div id="pg-guide" class="pg on">
+  <div class="sarea">
+    <div class="stitle">Profil du demandeur</div>
+    <div class="cgroup" id="grp-profil">
+      <div class="chip" data-v="salarie" onclick="pickChip(this,'profil')">Salarié d'entreprise</div>
+      <div class="chip" data-v="demandeur" onclick="pickChip(this,'profil')">Demandeur d'emploi</div>
+      <div class="chip" data-v="artisan" onclick="pickChip(this,'profil')">Artisan / TNS</div>
+      <div class="chip" data-v="particulier" onclick="pickChip(this,'profil')">Particulier</div>
+    </div>
+  </div>
+
+  <div class="sarea">
+    <div class="stitle">Formation — tarifs inter-entreprise</div>
+    <div id="grp-form" style="display:flex;flex-direction:column;gap:4px">
+      <div class="clabel">Habilitation électrique</div>
+      <div class="cgroup">
+        <div class="fchip" data-v="hab_h0b0" onclick="pickForm(this)"><span class="fname">H0-B0 — Non électricien</span><div class="fmeta"><span class="fprice">160 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="hab_b1h2" onclick="pickForm(this)"><span class="fname">B1-B2-H1-H2-BR-BC-V</span><div class="fmeta"><span class="fprice">320 €/pers.</span><span class="fdur">2j</span></div></div>
+        <div class="fchip" data-v="hab_rec" onclick="pickForm(this)"><span class="fname">Recyclage électricien</span><div class="fmeta"><span class="fprice">180 €/pers.</span><span class="fdur">1j</span></div></div>
+      </div>
+      <div class="clabel">Échafaudage / Hauteur</div>
+      <div class="cgroup">
+        <div class="fchip" data-v="ech_fixe" onclick="pickForm(this)"><span class="fname">Échafaudage fixe</span><div class="fmeta"><span class="fprice">390 €/pers.</span><span class="fdur">2j</span></div></div>
+        <div class="fchip" data-v="ech_roul" onclick="pickForm(this)"><span class="fname">Échafaudage roulant</span><div class="fmeta"><span class="fprice">210 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="ech_recep" onclick="pickForm(this)"><span class="fname">Réception échafaudage</span><div class="fmeta"><span class="fprice">210 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="ech_harn" onclick="pickForm(this)"><span class="fname">Hauteur / Harnais</span><div class="fmeta"><span class="fprice">180 €/pers.</span><span class="fdur">1j</span></div></div>
+      </div>
+      <div class="clabel">Santé &amp; Sécurité</div>
+      <div class="cgroup">
+        <div class="fchip" data-v="sst_init" onclick="pickForm(this)"><span class="fname">SST Initial</span><div class="fmeta"><span class="fprice">220 €/pers.</span><span class="fdur">2j</span></div></div>
+        <div class="fchip" data-v="sst_rec" onclick="pickForm(this)"><span class="fname">SST Recyclage</span><div class="fmeta"><span class="fprice">130 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="chsct" onclick="pickForm(this)"><span class="fname">CHSCT / CSSCT</span><div class="fmeta"><span class="fprice">420 €/pers.</span><span class="fdur">3j</span></div></div>
+      </div>
+      <div class="clabel">Prévention des risques</div>
+      <div class="cgroup">
+        <div class="fchip" data-v="aipr" onclick="pickForm(this)"><span class="fname">AIPR Opérateur</span><div class="fmeta"><span class="fprice">190 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="meca" onclick="pickForm(this)"><span class="fname">Risque mécanique M0</span><div class="fmeta"><span class="fprice">160 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="atex" onclick="pickForm(this)"><span class="fname">ATEX niveau 0</span><div class="fmeta"><span class="fprice">210 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="silice" onclick="pickForm(this)"><span class="fname">Poussières de silice</span><div class="fmeta"><span class="fprice">180 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="amiante" onclick="pickForm(this)"><span class="fname">Risque amiante</span><div class="fmeta"><span class="fprice">180 €/pers.</span><span class="fdur">1j</span></div></div>
+      </div>
+      <div class="clabel">Ferroviaire</div>
+      <div class="cgroup">
+        <div class="fchip" data-v="fer_h0" onclick="pickForm(this)"><span class="fname">H0/H0V Non électricien</span><div class="fmeta"><span class="fprice">220 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="fer_elec" onclick="pickForm(this)"><span class="fname">H1/H1V – H2/H2V – HC</span><div class="fmeta"><span class="fprice">420 €/pers.</span><span class="fdur">2j</span></div></div>
+        <div class="fchip" data-v="fer_maint" onclick="pickForm(this)"><span class="fname">Maintenance sous-systèmes</span><div class="fmeta"><span class="fprice">Sur devis</span><span class="fdur">3-5j</span></div></div>
+      </div>
+      <div class="clabel">Aéronautique</div>
+      <div class="cgroup">
+        <div class="fchip" data-v="aero_h0" onclick="pickForm(this)"><span class="fname">H0/H0V Non électricien</span><div class="fmeta"><span class="fprice">260 €/pers.</span><span class="fdur">1j</span></div></div>
+        <div class="fchip" data-v="aero_b1" onclick="pickForm(this)"><span class="fname">B1/B2/BR/BC</span><div class="fmeta"><span class="fprice">520 €/pers.</span><span class="fdur">2j</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2" style="gap:12px;margin-bottom:12px">
+    <div class="sarea" style="margin:0">
+      <div class="stitle">Financement</div>
+      <div class="cgroup" id="grp-fin">
+        <div class="chip" data-v="opco" onclick="pickChip(this,'fin')">OPCO</div>
+        <div class="chip" data-v="cpf" onclick="pickChip(this,'fin')">CPF</div>
+        <div class="chip" data-v="ft" onclick="pickChip(this,'fin')">France Travail</div>
+        <div class="chip" data-v="region" onclick="pickChip(this,'fin')">Région</div>
+        <div class="chip" data-v="auto" onclick="pickChip(this,'fin')">Autofinancement</div>
+      </div>
+    </div>
+    <div class="sarea" style="margin:0">
+      <div class="stitle">Canal de contact</div>
+      <div class="cgroup" id="grp-canal">
+        <div class="chip" data-v="tel" onclick="pickChip(this,'canal')">Téléphone</div>
+        <div class="chip" data-v="mail" onclick="pickChip(this,'canal')">Email</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gzone">
+    <div class="gctx" id="gctx"><span style="color:var(--text3);font-weight:400">Sélectionne les 4 critères ci-dessus</span></div>
+    <button class="btn btn-n" onclick="genGuide()">Générer la procédure →</button>
+  </div>
+  <div id="gresult"><div class="empty"><div class="eico">↑</div><p>Fais tes choix et génère la procédure</p></div></div>
+</div>
+
+<!-- CATALOGUE -->
+<div id="pg-catalogue" class="pg">
+  <div class="inote">⚠ <div><strong>Tarifs inter-entreprise uniquement.</strong> Pour une session intra (réservée à une seule entreprise), contacter FormaSpark pour un devis personnalisé.</div></div>
+  <div class="csec"><div class="chdr"><span class="cdot"></span>Habilitation électrique</div>
+    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
+      <tr><td>H0-B0 — Non électricien</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">160 €</span></td></tr>
+      <tr><td>B1-B2-H1-H2-BR-BC-V — Électricien</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">320 €</span></td></tr>
+      <tr><td>Recyclage pour électricien</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">180 €</span></td></tr>
+    </tbody></table></div>
+  <div class="csec"><div class="chdr"><span class="cdot"></span>Échafaudage / Travaux en hauteur</div>
+    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
+      <tr><td>Montage échafaudage fixe</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">390 €</span></td></tr>
+      <tr><td>Montage échafaudage roulant</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">210 €</span></td></tr>
+      <tr><td>Réception d'échafaudage</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">210 €</span></td></tr>
+      <tr><td>Travaux en hauteur / Port du harnais</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">180 €</span></td></tr>
+    </tbody></table></div>
+  <div class="csec"><div class="chdr"><span class="cdot"></span>Santé &amp; Sécurité au travail</div>
+    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
+      <tr><td>SST Initial</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">220 €</span></td></tr>
+      <tr><td>SST Recyclage</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">130 €</span></td></tr>
+      <tr><td>CHSCT / CSSCT — Formation membres</td><td><span class="dpill2">3 jours</span></td><td><span class="ptag">420 €</span></td></tr>
+    </tbody></table></div>
+  <div class="csec"><div class="chdr"><span class="cdot"></span>Prévention des risques</div>
+    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
+      <tr><td>AIPR Opérateur</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">190 €</span></td></tr>
+      <tr><td>Risque mécanique M0</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">160 €</span></td></tr>
+      <tr><td>ATEX niveau 0 — Atmosphères explosives</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">210 €</span></td></tr>
+      <tr><td>Poussières de silice</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">180 €</span></td></tr>
+      <tr><td>Sensibilisation risque amiante</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">180 €</span></td></tr>
+    </tbody></table></div>
+  <div class="csec"><div class="chdr"><span class="cdot"></span>Ferroviaire</div>
+    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
+      <tr><td>H0/H0V — Non électricien</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">220 €</span></td></tr>
+      <tr><td>H1/H1V – H2/H2V – HC — Électricien</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">420 €</span></td></tr>
+      <tr><td>Maintenance sous-systèmes Train</td><td><span class="dpill2">3 à 5 jours</span></td><td><span class="ptag" style="color:var(--purple)">Sur devis</span></td></tr>
+    </tbody></table></div>
+  <div class="csec"><div class="chdr"><span class="cdot"></span>Aéronautique</div>
+    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
+      <tr><td>H0/H0V — Non électricien</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">260 €</span></td></tr>
+      <tr><td>B1/B2/BR/BC — Électricien</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">520 €</span></td></tr>
+    </tbody></table></div>
+</div>
+
+</div>
+
+<script>
+
+var CAT = {
+  hab_h0b0:{l:"H0-B0 Non électricien",p:160,d:"1 jour"},
+  hab_b1h2:{l:"B1-B2-H1-H2-BR-BC-V",p:320,d:"2 jours"},
+  hab_rec:{l:"Recyclage électricien",p:180,d:"1 jour"},
+  ech_fixe:{l:"Échafaudage fixe",p:390,d:"2 jours"},
+  ech_roul:{l:"Échafaudage roulant",p:210,d:"1 jour"},
+  ech_recep:{l:"Réception échafaudage",p:210,d:"1 jour"},
+  ech_harn:{l:"Hauteur / Harnais",p:180,d:"1 jour"},
+  sst_init:{l:"SST Initial",p:220,d:"2 jours"},
+  sst_rec:{l:"SST Recyclage",p:130,d:"1 jour"},
+  chsct:{l:"CHSCT / CSSCT",p:420,d:"3 jours"},
+  aipr:{l:"AIPR Opérateur",p:190,d:"1 jour"},
+  meca:{l:"Risque mécanique M0",p:160,d:"1 jour"},
+  atex:{l:"ATEX niveau 0",p:210,d:"1 jour"},
+  silice:{l:"Poussières de silice",p:180,d:"1 jour"},
+  amiante:{l:"Risque amiante",p:180,d:"1 jour"},
+  fer_h0:{l:"Ferroviaire H0/H0V",p:220,d:"1 jour"},
+  fer_elec:{l:"Ferroviaire H1-H2-HC",p:420,d:"2 jours"},
+  fer_maint:{l:"Maintenance sous-systèmes",p:0,d:"3-5 jours"},
+  aero_h0:{l:"Aéronautique H0/H0V",p:260,d:"1 jour"},
+  aero_b1:{l:"Aéronautique B1/B2/BR/BC",p:520,d:"2 jours"}
+};
+var FLBL = {opco:"OPCO",cpf:"CPF",ft:"France Travail",region:"Région",auto:"Autofinancement"};
+var PLBL = {salarie:"Salarié d'entreprise",demandeur:"Demandeur d'emploi",artisan:"Artisan / TNS",particulier:"Particulier"};
+var picks = {profil:null,form:null,fin:null,canal:null};
+
+function goPage(id, btn) {
+  var pages = document.querySelectorAll('.pg');
+  for (var i=0; i<pages.length; i++) pages[i].classList.remove('on');
+  var btns = document.querySelectorAll('.nbtn');
+  for (var i=0; i<btns.length; i++) btns[i].classList.remove('on');
+  document.getElementById('pg-'+id).classList.add('on');
+  btn.classList.add('on');
+  if (id === 'dossiers') renderDossiers();
+  if (id === 'qualiopi') renderChecklist();
+}
+
+function pickChip(el, group) {
+  var grp = document.getElementById('grp-'+group);
+  var chips = grp.querySelectorAll('.chip');
+  for (var i=0; i<chips.length; i++) {
+    chips[i].classList.remove('on','on-fin','on-canal');
+  }
+  if (group === 'fin') el.classList.add('on-fin');
+  else if (group === 'canal') el.classList.add('on-canal');
+  else el.classList.add('on');
+  picks[group] = el.getAttribute('data-v');
+  updateCtx();
+}
+
+function pickForm(el) {
+  var target = el;
+  while (target && !target.classList.contains('fchip')) {
+    target = target.parentElement;
+  }
+  if (!target) return;
+  var all = document.querySelectorAll('#grp-form .fchip');
+  for (var i=0; i<all.length; i++) all[i].classList.remove('on');
+  target.classList.add('on');
+  picks.form = target.getAttribute('data-v');
+  updateCtx();
+}
+
+function updateCtx() {
+  var parts = [];
+  if (picks.profil) parts.push(PLBL[picks.profil]);
+  if (picks.form && CAT[picks.form]) {
+    var f = CAT[picks.form];
+    parts.push(f.l + (f.p > 0 ? ' — ' + f.p + '€' : ' — Devis'));
+  }
+  if (picks.fin) parts.push(FLBL[picks.fin]);
+  if (picks.canal) parts.push(picks.canal === 'tel' ? 'Téléphone' : 'Email');
+  var el = document.getElementById('gctx');
+  var colors = ['var(--navy)','var(--purple)','var(--pink)','#065F46'];
+  if (parts.length === 4) {
+    el.innerHTML = parts.map(function(p,i) {
+      return '<strong style="color:' + colors[i] + '">' + p + '</strong>';
+    }).join('<span style="opacity:.3"> · </span>');
+  } else {
+    el.innerHTML = '<span style="color:var(--text3);font-weight:400">' + parts.length + '/4 critères sélectionnés</span>';
+  }
+}
+
+function togglePhase(hdr) {
+  hdr.classList.toggle('open');
+  hdr.nextElementSibling.classList.toggle('open');
+}
+
+var PROC = {
+  opco: {
+    steps: [
+      {t:"Identifier l'OPCO",d:"Code NAF/APE de l'entreprise. OPCO EP=BTP/industrie · ATLAS=services · AFDAS=culture.",q:"Ind. 4"},
+      {t:"Vérifier la prise en charge",d:"Portail OPCO, plafonds selon taille entreprise (TPE, PME)."},
+      {t:"Monter le dossier DPC",d:"Programme + devis signé + convention + profil stagiaire. Attendre accord écrit.",w:"Ne jamais démarrer sans accord de prise en charge ÉCRIT de l'OPCO."},
+      {t:"Signer la convention",d:"OF + entreprise. Intitulé, durée, dates, tarif, objectifs, modalités évaluation.",q:"Ind. 1/5"},
+      {t:"Réaliser la formation",d:"Feuilles de présence matin + après-midi, stagiaire ET formateur.",q:"Ind. 10/11"},
+      {t:"Facturer et clôturer",d:"Facture OPCO avec N° dossier + attestation présence + bilan pédagogique.",q:"Ind. 31"}
+    ],
+    docs: ["Devis signé","Convention","Programme daté","Accord OPCO écrit","Feuilles présence","Bilan pédagogique","Facture OPCO"]
+  },
+  cpf: {
+    steps: [
+      {t:"Vérifier référencement MCF",d:"Formation active sur moncompteformation.gouv.fr avec code CPF valide.",q:"Ind. 1"},
+      {t:"Guider l'inscription MCF",d:"Stagiaire connecté avec France Identité. Rechercher FormaSpark, s'inscrire.",s:"« Connectez-vous sur moncompteformation.gouv.fr avec France Identité. Recherchez FormaSpark, sélectionnez la formation et cliquez S'inscrire. »"},
+      {t:"Délai rétractation — 11 jours ouvrés",d:"Aucun démarrage possible avant la fin de ce délai légal.",w:"Démarrer avant le délai = dossier CPF annulé. Attendre la confirmation CDC.",q:"Ind. 12"},
+      {t:"Envoyer la convocation",d:"Lieu, date, horaires, matériel, règlement intérieur.",q:"Ind. 9"},
+      {t:"Réaliser + questionnaire à chaud",d:"Feuilles présence + évaluation acquis + questionnaire satisfaction récupéré.",q:"Ind. 11/31"},
+      {t:"Clôturer sur CDC",d:"Déclarer la réalisation. Inviter le stagiaire à déposer un avis MCF.",q:"Ind. 2/31"}
+    ],
+    docs: ["Inscription CDC","Convocation post-rétractation","Feuilles présence","Attestation","Évaluation à chaud","Avis MCF"]
+  },
+  ft: {
+    steps: [
+      {t:"Vérifier statut DE actif",d:"Inscription France Travail obligatoire. Demander le N° de dossier FT.",s:"« Êtes-vous inscrit à France Travail ? L'AIF doit être prescrite par votre conseiller avant tout démarrage. »",q:"Ind. 4"},
+      {t:"Orienter vers le conseiller FT",d:"Fournir programme + devis au stagiaire pour transmission à son conseiller."},
+      {t:"Attendre la prescription écrite",d:"FT émet un bon de commande ou convention tripartite.",w:"Aucun remboursement sans prescription préalable écrite de France Travail."},
+      {t:"Signer la convention tripartite",d:"FT + FormaSpark + stagiaire. Intitulé, durée, coût, objectifs.",q:"Ind. 1/5"},
+      {t:"Suivi assiduité renforcé",d:"Feuilles présence obligatoires. Informer FT sous 48h en cas d'absence.",q:"Ind. 10/12"},
+      {t:"Facturer France Travail",d:"Facture + feuilles + attestation + bilan pédagogique avec N° dossier.",q:"Ind. 31"}
+    ],
+    docs: ["Prescription AIF FT","Convention tripartite","Programme + devis","Feuilles présence","Attestation","Bilan pédagogique","Facture N° FT"]
+  },
+  region: {
+    steps: [
+      {t:"Veille appels à projets",d:"Site Région Occitanie. Dispositifs ouverts et publics ciblés.",q:"Ind. 22"},
+      {t:"Vérifier l'éligibilité",d:"Certains dispositifs ciblent des publics précis (jeunes, DE longue durée…)."},
+      {t:"Constituer le dossier",d:"Programme, CV formateur, budget, indicateurs selon cahier des charges régional."},
+      {t:"Attendre notification officielle",d:"Ne pas démarrer sans notification écrite.",w:"Aucun engagement sans accord officiel écrit de la Région."},
+      {t:"Signer la convention",d:"Montant, versement, reporting, indicateurs à suivre."},
+      {t:"Bilan et facturation",d:"Rapport final transmis à la Région. Facturation conforme.",q:"Ind. 32"}
+    ],
+    docs: ["Dossier candidature","Convention Région","Cahier des charges","Feuilles présence","Bilan qualitatif","Facture conforme"]
+  },
+  auto: {
+    steps: [
+      {t:"Envoyer le devis sous 24h",d:"Formation, dates, participants. Programme détaillé, tarif TTC/HT.",s:"« Je vous envoie le programme complet et le devis par email dans la journée. »",q:"Ind. 1"},
+      {t:"Signer la convention",d:"Avant tout démarrage. Objectifs, durée, tarif, modalités annulation (CGV).",q:"Ind. 5"},
+      {t:"Envoyer la convocation J-10",d:"Lieu exact, horaires, programme, matériel à apporter, accès.",q:"Ind. 9"},
+      {t:"Réaliser la formation",d:"Feuilles présence + évaluation à chaud.",q:"Ind. 10/11"},
+      {t:"Émettre la facture soldée",d:"Après réalisation. Délai 30 jours max en B2B."},
+      {t:"Archiver 5 ans minimum",d:"Convention, présences, évaluation, attestation, questionnaires, facture.",q:"Ind. 30"}
+    ],
+    docs: ["Devis signé","Convention + CGV","Convocation","Feuilles présence","Attestation","Évaluation à chaud","Facture soldée"]
+  }
+};
+
+var TEL = [
+  {t:"Décrocher et se présenter",s:"« Bonjour, FormaSpark, [Prénom] à l'appareil — bonjour ! »"},
+  {t:"Écouter et reformuler",d:"Laisser le prospect s'exprimer sans l'interrompre.",s:"« Vous souhaitez une formation en [formation] — c'est pour vous ou vos équipes ? »"},
+  {t:"Qualifier profil et financement",d:"Statut, urgence, dates. Orienter vers le bon financement.",q:"Ind. 4"},
+  {t:"Prendre les coordonnées",d:"Nom, prénom, email, tél, entreprise.",s:"« Je vous envoie le programme et le devis dans la journée. »"}
+];
+var MAIL = [
+  {t:"Accuser réception sous 4h",s:"« Bonjour, merci pour votre message. FormaSpark a bien pris en compte votre demande. Nous revenons vers vous rapidement. »"},
+  {t:"Rappeler pour qualifier",d:"Appeler si possible, sinon envoyer une fiche découverte par email.",q:"Ind. 4"},
+  {t:"Envoyer devis + programme",d:"Programme versionné, tarif TTC/HT, durée, objectifs.",q:"Ind. 1/5"}
+];
+var PPOS = {
+  title:"Prérequis et positionnement", col:"#7B2FBE",
+  steps:[
+    {t:"Vérifier les prérequis",d:"Fiche de positionnement envoyée avant inscription. Archiver la réponse signée.",q:"Ind. 8"},
+    {t:"Informer des conditions",d:"Lieu, horaires, matériel, règlement intérieur FormaSpark.",q:"Ind. 9"},
+    {t:"Besoins spécifiques / handicap",d:"Contacter le référent handicap si besoin.",q:"Ind. 26"}
+  ]
+};
+var PSES = {
+  title:"Pendant la session", col:"#1D9E75",
+  steps:[
+    {t:"Feuilles de présence — OBLIGATOIRE",d:"Signature stagiaire ET formateur, matin + après-midi. Sans feuille = pas de financement.",q:"Ind. 10",w:"Absence non signalée = refus de prise en charge par le financeur."},
+    {t:"Remettre le support pédagogique",d:"Livret FormaSpark distribué en début de session.",q:"Ind. 19"},
+    {t:"Évaluation des acquis",d:"QCM, mise en situation ou oral. Résultat noté et archivé.",q:"Ind. 11"},
+    {t:"Questionnaire à chaud",d:"Distribuer ET récupérer signé en fin de session. Preuve Qualiopi.",q:"Ind. 31"}
+  ]
+};
+var PCLO = {
+  title:"Clôture et archivage", col:"#065F46",
+  steps:[
+    {t:"Attestation individuelle",d:"Nom, prénom, intitulé, durée, dates, résultat, signature FormaSpark.",q:"Ind. 11"},
+    {t:"Certificat / habilitation",d:"Selon la formation, dans les délais réglementaires."},
+    {t:"Évaluation à froid J+30/J+90",d:"Relancer stagiaire ou employeur pour mesurer l'impact.",q:"Ind. 31"},
+    {t:"Archivage 5 ans minimum",d:"Convention, présences, évaluation, attestation, questionnaires, facture.",q:"Ind. 30"}
+  ]
+};
+
+function buildPhase(num, title, col, steps, open) {
+  var h = '<div class="phase">';
+  h += '<div class="phdr ' + (open ? 'open' : '') + '" onclick="togglePhase(this)">';
+  h += '<div class="pnum" style="background:' + col + '">' + num + '</div>';
+  h += '<div class="ptitle">' + title + '</div>';
+  h += '<span class="pchev">&#9654;</span></div>';
+  h += '<div class="pbody ' + (open ? 'open' : '') + '"><div class="slist">';
+  for (var i=0; i<steps.length; i++) {
+    var s = steps[i];
+    h += '<div class="sitem"><div class="sn">' + (i+1) + '</div><div class="sc">';
+    h += '<div class="st">' + s.t + '</div>';
+    if (s.d) h += '<div class="sd">' + s.d + '</div>';
+    if (s.s) h += '<div class="sbox"><span class="slbl">Script</span>' + s.s + '</div>';
+    if (s.w) h += '<div class="wbox">&#9888; ' + s.w + '</div>';
+    if (s.q) h += '<span class="qb">' + s.q + '</span>';
+    h += '</div></div>';
+  }
+  h += '</div></div></div>';
+  return h;
+}
+
+function genGuide() {
+  if (!picks.profil || !picks.form || !picks.fin || !picks.canal) {
+    alert('Sélectionne les 4 critères avant de générer.');
+    return;
+  }
+  var P = PROC[picks.fin];
+  var F = CAT[picks.form];
+  var cs = picks.canal === 'tel' ? TEL : MAIL;
+  var finCols = {opco:'#E0106A',cpf:'#C0147A',ft:'#854F0B',region:'#065F46',auto:'#2D2D8B'};
+  var cTitle = picks.canal === 'tel' ? 'Premier contact — Téléphone' : 'Premier contact — Email';
+
+  var h = '<div class="actx"><span class="adot"></span>';
+  h += '<strong>' + PLBL[picks.profil] + '</strong>';
+  h += '<span style="opacity:.3"> · </span><strong>' + F.l + '</strong>';
+  h += '<span style="opacity:.3"> · </span><strong>' + (F.p > 0 ? F.p + '€/pers. inter' : 'Sur devis') + '</strong>';
+  h += '<span style="opacity:.3"> · </span><strong>' + F.d + '</strong>';
+  h += '<span style="opacity:.3"> · </span><strong>' + FLBL[picks.fin] + '</strong>';
+  h += '</div>';
+
+  if (F.p === 0) {
+    h += '<div class="inote">Cette formation est sur devis. Contacter FormaSpark pour un tarif selon durée et nombre de participants.</div>';
+  }
+
+  h += '<div class="pwrap">';
+  h += buildPhase(1, cTitle, '#2D2D8B', cs, true);
+  h += buildPhase(2, PPOS.title, PPOS.col, PPOS.steps, true);
+  h += buildPhase(3, 'Financement : ' + FLBL[picks.fin], finCols[picks.fin], P.steps, true);
+  h += buildPhase(4, PSES.title, PSES.col, PSES.steps, false);
+  h += buildPhase(5, PCLO.title, PCLO.col, PCLO.steps, false);
+  h += '<div class="drow"><span class="dlbl">Documents</span>';
+  for (var i=0; i<P.docs.length; i++) {
+    h += '<span class="dpill">' + P.docs[i] + '</span>';
+  }
+  h += '</div></div>';
+
+  document.getElementById('gresult').innerHTML = h;
+}
+</script>
+</body>
+</html>
