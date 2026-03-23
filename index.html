@@ -3,533 +3,745 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FormaSpark — Espace opérationnel</title>
+<title>FormaSpark — Guide opérationnel</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#1a1a2e;font-size:14px;line-height:1.6}
-:root{
-  --navy:#2D2D8B;--navyl:#EBEBF8;--navym:#C5C5EE;
-  --purple:#7B2FBE;--purplel:#F3EAFA;
-  --pink:#E0106A;--pinkl:#FDE8F2;
-  --greenl:#ECFDF5;--greent:#065F46;
-  --amberl:#FFFBEB;--ambert:#92400E;
-  --border:#E5E7EB;--text:#1a1a2e;--text2:#4B5563;--text3:#9CA3AF;
-}
-.app{max-width:900px;margin:0 auto;padding:16px}
-.hdr{border-bottom:2px solid var(--navy);padding:14px 0 12px}
-.brand{display:flex;align-items:center;gap:10px}
-.bicon{width:40px;height:40px;border-radius:50%;border:2.5px solid var(--purple);display:flex;align-items:center;justify-content:center}
-.bsvg{width:22px;height:22px;fill:none;stroke:var(--navy);stroke-width:3;stroke-linecap:round}
-.bname{font-size:20px;font-weight:600;color:var(--navy)}
-.bname em{color:var(--pink);font-style:normal}
-.btag{font-size:11px;color:var(--text3);margin-top:2px}
-.nav{display:flex;gap:4px;padding:14px 0 0;margin-bottom:20px;border-bottom:1px solid var(--border);overflow-x:auto}
-.nbtn{padding:9px 16px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:3px solid transparent;margin-bottom:-1px;border-radius:0;white-space:nowrap;font-family:inherit;transition:all .15s}
-.nbtn.on{color:var(--navy);border-bottom-color:var(--navy);background:var(--navyl);border-radius:8px 8px 0 0}
-.nbtn:hover:not(.on){color:var(--navy);background:#F3F4F6;border-radius:8px 8px 0 0}
-.pg{display:none}.pg.on{display:block}
-.flabel{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px}
-select,input[type=text],input[type=date]{width:100%;padding:10px 12px;font-size:13px;font-family:inherit;color:var(--text);background:#fff;border:1.5px solid var(--border);border-radius:8px}
-select:focus,input:focus{outline:none;border-color:var(--navy)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-@media(max-width:580px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
-@media(max-width:380px){.g2,.g3,.g4{grid-template-columns:1fr}}
-.btn{font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;border-radius:8px;padding:10px 18px;border:none;display:inline-flex;align-items:center;gap:6px}
-.btn-n{background:var(--navy);color:#fff}
-.btn-n:hover{background:#23237A}
-.btn-r{background:#FEE2E2;color:#B91C1C}
-.btn-r:hover{background:#FECACA}
-.btn-w{width:100%;justify-content:center}
-.sarea{background:#F8F9FA;border-radius:12px;padding:14px 16px;margin-bottom:12px;border:1px solid var(--border)}
-.stitle{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-.clabel{font-size:11px;font-weight:500;color:var(--purple);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 6px}
-.clabel:first-child{margin-top:0}
-.cgroup{display:flex;flex-wrap:wrap;gap:6px}
-.chip{padding:7px 13px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--text2);transition:all .15s;white-space:nowrap;user-select:none}
-.chip:hover{border-color:var(--navy);color:var(--navy);background:var(--navyl)}
-.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.chip.on-fin{background:var(--pink);color:#fff;border-color:var(--pink)}
-.chip.on-canal{background:#065F46;color:#fff;border-color:#065F46}
-.fchip{padding:8px 12px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--text2);transition:all .15s;user-select:none}
-.fchip:hover{border-color:var(--navy);background:var(--navyl);color:var(--navy)}
-.fchip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.fname{display:block;font-size:12px;font-weight:500;pointer-events:none}
-.fmeta{display:flex;gap:6px;margin-top:3px;pointer-events:none}
-.fprice{font-size:11px;opacity:.75;pointer-events:none}
-.fdur{font-size:10px;opacity:.65;background:rgba(0,0,0,.08);padding:1px 5px;border-radius:3px;pointer-events:none}
-.fchip.on .fprice,.fchip.on .fdur{opacity:.85}
-.gzone{background:var(--navyl);border:1.5px solid var(--navym);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.gctx{font-size:13px;color:var(--navy);font-weight:500;flex:1}
-.pwrap{border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
-.actx{background:var(--navy);color:#fff;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}
-.adot{width:8px;height:8px;border-radius:50%;background:var(--pink);flex-shrink:0}
-.phase{border-bottom:1px solid var(--border)}
-.phase:last-child{border-bottom:none}
-.phdr{padding:13px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
-.phdr:hover{background:#F8F9FA}
-.pnum{width:26px;height:26px;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
-.ptitle{font-size:14px;font-weight:500;flex:1}
-.pchev{font-size:12px;color:var(--text3);transition:transform .2s}
-.phdr.open .pchev{transform:rotate(90deg)}
-.pbody{display:none}
-.pbody.open{display:block}
-.slist{padding:4px 0 8px 52px}
-.sitem{padding:10px 16px 10px 0;border-bottom:1px dashed var(--border);display:flex;gap:12px}
-.sitem:last-child{border-bottom:none}
-.sn{width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background:#E9ECEF;color:var(--text2)}
-.sc .st{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
-.sc .sd{font-size:12px;color:var(--text2);line-height:1.55}
-.sbox{margin-top:8px;padding:9px 12px;background:var(--purplel);border-left:3px solid var(--purple);border-radius:0 6px 6px 0;font-size:12px;color:#3C1470;font-style:italic;line-height:1.6}
-.slbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--purple);margin-bottom:4px;font-style:normal;display:block}
-.wbox{margin-top:8px;padding:8px 12px;background:#FFFBEB;border-left:3px solid #F59E0B;border-radius:0 6px 6px 0;font-size:12px;color:#92400E}
-.qb{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;background:var(--purplel);color:var(--purple);margin-top:6px}
-.drow{padding:12px 16px;background:var(--navyl);display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--border)}
-.dlbl{font-size:11px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;margin-right:4px;white-space:nowrap}
-.dpill{font-size:11px;padding:3px 9px;border-radius:4px;background:#fff;border:1px solid var(--navym);color:var(--navy);font-weight:500}
-.inote{background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:10px 14px;font-size:12px;color:#92400E;margin-bottom:16px;display:flex;gap:8px}
-.csec{margin-bottom:16px}
-.chdr{background:var(--navy);color:#fff;padding:10px 14px;border-radius:8px 8px 0 0;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px}
-.cdot{width:8px;height:8px;border-radius:50%;background:var(--pink);flex-shrink:0}
-.ctbl{width:100%;border-collapse:collapse;border:1.5px solid var(--border);border-top:none}
-.ctbl th{background:#F8F9FA;padding:8px 12px;font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;text-align:left;border-bottom:1px solid var(--border)}
-.ctbl th:last-child,.ctbl td:last-child{text-align:right}
-.ctbl td{padding:10px 12px;font-size:13px;color:var(--text);border-bottom:1px solid var(--border)}
-.ctbl tr:last-child td{border-bottom:none}
-.ctbl tr:hover td{background:#F8F9FA}
-.ptag{font-weight:600;color:var(--navy)}
-.dpill2{font-size:11px;background:var(--navyl);color:var(--navy);padding:2px 7px;border-radius:4px;font-weight:500;white-space:nowrap}
-.mcard{border-radius:10px;padding:14px;text-align:center}
-.mcard .mv{font-size:28px;font-weight:600;line-height:1;margin-top:4px}
-.mcard .ml{font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
-.mc0{background:#F8F9FA;border:1px solid var(--border)}.mc0 .mv{color:var(--text)}.mc0 .ml{color:var(--text3)}
-.mc1{background:var(--navyl)}.mc1 .mv{color:var(--navy)}.mc1 .ml{color:#6366F1}
-.mc2{background:var(--amberl)}.mc2 .mv{color:var(--ambert)}.mc2 .ml{color:#B45309}
-.mc3{background:var(--pinkl)}.mc3 .mv{color:var(--pink)}.mc3 .ml{color:#9D174D}
-.fcard{background:#F8F9FA;border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:4px}
-.ftitle{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.fdott{width:8px;height:8px;border-radius:50%;background:var(--navy);flex-shrink:0}
-.twrap{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-top:16px;overflow-x:auto}
-table.dt{width:100%;border-collapse:collapse;font-size:13px;min-width:580px}
-table.dt th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
-table.dt td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
-table.dt tr:last-child td{border-bottom:none}
-table.dt tr:hover td{background:#F8F9FA}
-.ssel{font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-family:inherit;background:#fff;color:var(--text);width:100%}
-.sb{display:inline-block;font-size:11px;font-weight:500;padding:3px 8px;border-radius:5px}
-.sb0{background:var(--navyl);color:var(--navy)}
-.sb1{background:var(--amberl);color:var(--ambert)}
-.sb2{background:var(--pinkl);color:var(--pink)}
-.sb3{background:var(--greenl);color:var(--greent)}
-.pwbar{background:var(--navyl);border:1.5px solid var(--navym);border-radius:10px;padding:14px 16px;margin-bottom:16px}
-.pwtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.pwsess{font-size:14px;font-weight:500;color:var(--navy)}
-.pwpct{font-size:22px;font-weight:600;color:var(--navy)}
-.pwtrack{height:8px;border-radius:4px;background:var(--navym);overflow:hidden}
-.pwfill{height:100%;border-radius:4px;background:var(--navy);transition:width .4s}
-.pwsub{font-size:12px;color:#6366F1;margin-top:6px}
-.qphase{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px}
-.qphdr{background:#F8F9FA;padding:12px 16px;font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.qpcnt{font-size:12px;font-weight:400;color:var(--text3)}
-.qrow{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer}
-.qrow:last-child{border-bottom:none}
-.qrow:hover{background:#F8F9FA}
-.qbox{width:18px;height:18px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
-.qbox.on{background:var(--navy);border-color:var(--navy);color:#fff}
-.qtxt{flex:1;font-size:13px;color:var(--text);line-height:1.5}
-.qtxt.done{color:var(--text3);text-decoration:line-through}
-.qind{font-size:10px;font-weight:500;color:var(--purple);margin-left:6px;background:var(--purplel);padding:1px 6px;border-radius:3px}
-.empty{padding:32px;text-align:center;color:var(--text3);border:1.5px dashed var(--border);border-radius:12px}
-.eico{font-size:28px;margin-bottom:8px;opacity:.3}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f9f9fb;color:#1a1a2e;font-size:14px;line-height:1.5}
+.page{max-width:860px;margin:0 auto;padding:32px 20px}
+h1{font-size:26px;font-weight:700;color:#2d2d6b;margin-bottom:4px}
+.sub{font-size:13px;color:#999;margin-bottom:28px}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid #e8e8f0;margin-bottom:28px}
+.tab{padding:10px 22px;font-size:14px;font-weight:500;color:#999;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s}
+.tab.on{color:#2d2d6b;border-bottom-color:#2d2d6b;font-weight:600}
+.sec{display:none}.sec.on{display:block}
+
+/* Selector cards */
+.card{background:#fff;border:1px solid #e8e8f0;border-radius:12px;padding:20px 24px;margin-bottom:14px}
+.lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#bbb;margin-bottom:12px}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btns.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(198px,1fr));gap:8px}
+.cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#2d2d6b;margin:12px 0 5px;grid-column:1/-1}
+.btn{padding:8px 16px;border-radius:8px;border:1.5px solid #e0e0ec;background:#fff;color:#555;font-size:13px;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;position:relative}
+.btn:hover:not(:disabled){border-color:#2d2d6b;color:#2d2d6b}
+.btn.on{background:#2d2d6b;border-color:#2d2d6b;color:#fff}
+.btn:disabled{opacity:.32;cursor:not-allowed;background:#f7f7f9;color:#aaa}
+.btn .pr{display:block;font-size:11px;margin-top:2px;opacity:.65}
+.gobtn{width:100%;padding:13px;background:#2d2d6b;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:6px;transition:opacity .15s}
+.gobtn:disabled{opacity:.28;cursor:not-allowed}
+
+/* Elig note */
+.elig-note{background:#fff8e1;border:1px solid #ffcc80;border-radius:8px;padding:9px 14px;margin-bottom:12px;font-size:12px;color:#6d4c41;display:none;line-height:1.55}
+.elig-note strong{color:#bf360c}
+
+/* Recap bar */
+.recap{background:#2d2d6b;color:#fff;border-radius:10px;padding:12px 20px;margin-bottom:24px;font-size:13px;font-weight:500;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.rdot{width:7px;height:7px;border-radius:50%;background:#7c7cff;flex-shrink:0}
+.rs{opacity:.35}
+
+/* Phase block */
+.phase{background:#fff;border:1px solid #e8e8f0;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.phdr{display:flex;align-items:center;gap:14px;padding:15px 20px;cursor:pointer;user-select:none}
+.pnum{width:30px;height:30px;border-radius:50%;background:#2d2d6b;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ptit{font-size:14px;font-weight:600;color:#1a1a2e;flex:1}
+.parr{font-size:11px;color:#ccc;transition:transform .2s}
+.phase.open .parr{transform:rotate(180deg)}
+.pbody{display:none;border-top:1px solid #f0f0f6}
+.phase.open .pbody{display:block}
+
+/* Step */
+.step{padding:15px 20px 15px 62px;border-bottom:1px solid #f2f2fa;position:relative}
+.step:last-child{border-bottom:none}
+.snum{position:absolute;left:22px;top:17px;width:22px;height:22px;border-radius:50%;background:#f0f0f8;border:1px solid #dde;color:#666;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.stit{font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:3px}
+.sdesc{font-size:13px;color:#555;line-height:1.55;margin-bottom:4px}
+
+/* Ind badges */
+.badges{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0}
+.ind{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;background:#ede9fe;color:#5b4fcf;border:1px solid #c4b5fd}
+
+/* Qualiopi explanation box */
+.q-expl{margin-top:8px;background:#f8f7ff;border:1px solid #ddd8fa;border-radius:7px;padding:9px 13px;font-size:12px;color:#3d3069;line-height:1.6}
+.q-expl strong{font-weight:600;color:#2d2d6b}
+
+/* Alert */
+.alert{font-size:12px;color:#b71c1c;font-weight:500;margin-top:6px;padding:5px 10px;background:#fdf0ed;border-radius:5px;border-left:3px solid #e53935;display:inline-block}
+
+/* Guide client box */
+.guide{margin-top:10px;background:#f0faf5;border:1px solid #b2d8c5;border-radius:8px;overflow:hidden}
+.guide-h{background:#dff2ea;padding:6px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#0a5c3a;border-bottom:1px solid #b2d8c5}
+.guide-b{padding:10px 14px;font-size:12px;color:#1a3a2a;line-height:1.75}
+.guide-b ol,.guide-b ul{padding-left:18px;margin:4px 0}
+.guide-b li{margin-bottom:3px}
+.guide-b a{color:#0F6E56;font-weight:500}
+.guide-b strong{font-weight:600}
+.guide-b .ref{font-weight:600;color:#0F6E56}
+
+/* Script */
+.script{margin-top:10px;background:#f3f0ff;border:1px solid #c4b5fd;border-radius:8px;overflow:hidden}
+.script-h{background:#ede9fe;padding:6px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5b4fcf;border-bottom:1px solid #c4b5fd;display:flex;justify-content:space-between;align-items:center}
+.script-b{padding:10px 14px;font-size:13px;color:#3a2a6a;line-height:1.6;font-style:italic}
+
+/* Email */
+.email{margin-top:10px;border:1px solid #dde0f0;border-radius:8px;overflow:hidden}
+.email-h{background:#f5f5fb;padding:6px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#2d2d6b;border-bottom:1px solid #e0e0f0}
+.emeta{background:#fff}
+.emr{padding:5px 14px;font-size:12px;color:#999;border-bottom:1px solid #f2f2f8;display:flex;gap:6px}
+.emr:last-child{border-bottom:none}
+.emr span{color:#1a1a2e;font-weight:500}
+.ebody{background:#fff;padding:12px 14px;font-size:12px;color:#333;line-height:1.75;white-space:pre-wrap;max-height:250px;overflow-y:auto}
+.efoot{background:#f5f5fb;padding:6px 14px;border-top:1px solid #e8e8f0;display:flex;gap:8px;align-items:center}
+.cbtn{padding:5px 12px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #c8c8dc;background:#fff;color:#444}
+.cbtn:hover{background:#ededf8}
+.cpok{font-size:12px;font-weight:500;color:#0F6E56;display:none}
+
+/* Docs card */
+.docs-card{background:#fff;border:1px solid #e8e8f0;border-radius:12px;padding:18px 22px;margin-bottom:10px}
+.docs-tit{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#bbb;margin-bottom:10px}
+.di{display:flex;align-items:center;gap:10px;font-size:13px;color:#444;margin-bottom:6px}
+.di::before{content:'';width:5px;height:5px;border-radius:50%;background:#2d2d6b;flex-shrink:0}
+
+/* Qualiopi footer note */
+.q-footer{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 16px;font-size:12px;color:#1e40af;line-height:1.6;margin-bottom:12px}
+.rbtn{font-size:13px;color:#bbb;background:none;border:none;cursor:pointer;text-decoration:underline}
+
+/* Catalogue */
+.cs{margin-bottom:22px}
+.ct{font-size:15px;font-weight:700;color:#2d2d6b;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #e8e8f0}
+.ptbl{width:100%;border-collapse:collapse;font-size:13px}
+.ptbl th{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#bbb;padding:4px 0 8px}
+.ptbl td{padding:9px 0;border-bottom:1px solid #f2f2f8;color:#1a1a2e}
+.ptbl tr:last-child td{border-bottom:none}
+.pc{font-weight:700;color:#2d2d6b}
+.dc{color:#999;font-size:12px}
+.cnote{font-size:12px;color:#888;margin-bottom:18px;padding:8px 14px;background:#f5f5fb;border-left:3px solid #2d2d6b;border-radius:0 6px 6px 0}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="page">
+<h1>Guide opérationnel FormaSpark</h1>
+<div class="sub">Procédures administratives · Catalogue & tarifs · Certifié Qualiopi</div>
 
-<div class="hdr">
-  <div>
-    <div class="bname">Guide opérationnel FormaSpark</div>
-    <div class="btag">Procédures administratives · Catalogue &amp; tarifs · Certifié Qualiopi</div>
-  </div>
+<div class="tabs">
+  <button class="tab on" onclick="swTab(0)">Guide procédures</button>
+  <button class="tab" onclick="swTab(1)">Catalogue & tarifs</button>
 </div>
 
-<div class="nav">
-  <button class="nbtn on" onclick="goPage('guide',this)">Guide procédures</button>
-  <button class="nbtn" onclick="goPage('catalogue',this)">Catalogue &amp; tarifs</button>
-</div>
+<div class="sec on" id="t0">
 
-<!-- GUIDE -->
-<div id="pg-guide" class="pg on">
-  <div class="sarea">
-    <div class="stitle">Profil du demandeur</div>
-    <div class="cgroup" id="grp-profil">
-      <div class="chip" data-v="salarie" onclick="pickChip(this,'profil')">Salarié d'entreprise</div>
-      <div class="chip" data-v="demandeur" onclick="pickChip(this,'profil')">Demandeur d'emploi</div>
-      <div class="chip" data-v="artisan" onclick="pickChip(this,'profil')">Artisan / TNS</div>
-      <div class="chip" data-v="particulier" onclick="pickChip(this,'profil')">Particulier</div>
+  <div class="card">
+    <div class="lbl">Profil du demandeur</div>
+    <div class="btns" id="gp">
+      <button class="btn" onclick="pick('profil',this,'salarie')">Salarié d'entreprise</button>
+      <button class="btn" onclick="pick('profil',this,'demandeur')">Demandeur d'emploi</button>
+      <button class="btn" onclick="pick('profil',this,'tns')">Artisan / TNS</button>
+      <button class="btn" onclick="pick('profil',this,'particulier')">Particulier</button>
     </div>
   </div>
 
-  <div class="sarea">
-    <div class="stitle">Formation — tarifs inter-entreprise</div>
-    <div id="grp-form" style="display:flex;flex-direction:column;gap:4px">
-      <div class="clabel">Habilitation électrique</div>
-      <div class="cgroup">
-        <div class="fchip" data-v="hab_h0b0" onclick="pickForm(this)"><span class="fname">H0-B0 — Non électricien</span><div class="fmeta"><span class="fprice">160 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="hab_b1h2" onclick="pickForm(this)"><span class="fname">B1-B2-H1-H2-BR-BC-V</span><div class="fmeta"><span class="fprice">320 €/pers.</span><span class="fdur">2j</span></div></div>
-        <div class="fchip" data-v="hab_rec" onclick="pickForm(this)"><span class="fname">Recyclage électricien</span><div class="fmeta"><span class="fprice">180 €/pers.</span><span class="fdur">1j</span></div></div>
-      </div>
-      <div class="clabel">Échafaudage / Hauteur</div>
-      <div class="cgroup">
-        <div class="fchip" data-v="ech_fixe" onclick="pickForm(this)"><span class="fname">Échafaudage fixe</span><div class="fmeta"><span class="fprice">390 €/pers.</span><span class="fdur">2j</span></div></div>
-        <div class="fchip" data-v="ech_roul" onclick="pickForm(this)"><span class="fname">Échafaudage roulant</span><div class="fmeta"><span class="fprice">210 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="ech_recep" onclick="pickForm(this)"><span class="fname">Réception échafaudage</span><div class="fmeta"><span class="fprice">210 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="ech_harn" onclick="pickForm(this)"><span class="fname">Hauteur / Harnais</span><div class="fmeta"><span class="fprice">180 €/pers.</span><span class="fdur">1j</span></div></div>
-      </div>
-      <div class="clabel">Santé &amp; Sécurité</div>
-      <div class="cgroup">
-        <div class="fchip" data-v="sst_init" onclick="pickForm(this)"><span class="fname">SST Initial</span><div class="fmeta"><span class="fprice">220 €/pers.</span><span class="fdur">2j</span></div></div>
-        <div class="fchip" data-v="sst_rec" onclick="pickForm(this)"><span class="fname">SST Recyclage</span><div class="fmeta"><span class="fprice">130 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="chsct" onclick="pickForm(this)"><span class="fname">CHSCT / CSSCT</span><div class="fmeta"><span class="fprice">420 €/pers.</span><span class="fdur">3j</span></div></div>
-      </div>
-      <div class="clabel">Prévention des risques</div>
-      <div class="cgroup">
-        <div class="fchip" data-v="aipr" onclick="pickForm(this)"><span class="fname">AIPR Opérateur</span><div class="fmeta"><span class="fprice">190 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="meca" onclick="pickForm(this)"><span class="fname">Risque mécanique M0</span><div class="fmeta"><span class="fprice">160 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="atex" onclick="pickForm(this)"><span class="fname">ATEX niveau 0</span><div class="fmeta"><span class="fprice">210 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="silice" onclick="pickForm(this)"><span class="fname">Poussières de silice</span><div class="fmeta"><span class="fprice">180 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="amiante" onclick="pickForm(this)"><span class="fname">Risque amiante</span><div class="fmeta"><span class="fprice">180 €/pers.</span><span class="fdur">1j</span></div></div>
-      </div>
-      <div class="clabel">Ferroviaire</div>
-      <div class="cgroup">
-        <div class="fchip" data-v="fer_h0" onclick="pickForm(this)"><span class="fname">H0/H0V Non électricien</span><div class="fmeta"><span class="fprice">220 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="fer_elec" onclick="pickForm(this)"><span class="fname">H1/H1V – H2/H2V – HC</span><div class="fmeta"><span class="fprice">420 €/pers.</span><span class="fdur">2j</span></div></div>
-        <div class="fchip" data-v="fer_maint" onclick="pickForm(this)"><span class="fname">Maintenance sous-systèmes</span><div class="fmeta"><span class="fprice">Sur devis</span><span class="fdur">3-5j</span></div></div>
-      </div>
-      <div class="clabel">Aéronautique</div>
-      <div class="cgroup">
-        <div class="fchip" data-v="aero_h0" onclick="pickForm(this)"><span class="fname">H0/H0V Non électricien</span><div class="fmeta"><span class="fprice">260 €/pers.</span><span class="fdur">1j</span></div></div>
-        <div class="fchip" data-v="aero_b1" onclick="pickForm(this)"><span class="fname">B1/B2/BR/BC</span><div class="fmeta"><span class="fprice">520 €/pers.</span><span class="fdur">2j</span></div></div>
-      </div>
+  <div class="card">
+    <div class="lbl">Formation — tarifs inter-entreprise</div>
+    <div class="btns grid" id="gf">
+      <div class="cat">Habilitation électrique</div>
+      <button class="btn" onclick="pick('formation',this,'H0B0')">H0-B0 — Non électricien<span class="pr">160 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'B1B2')">B1-B2-H1-H2-BR-BC-V<span class="pr">320 €/pers. · 2j</span></button>
+      <button class="btn" onclick="pick('formation',this,'recyclage')">Recyclage électricien<span class="pr">180 €/pers. · 1j</span></button>
+      <div class="cat">Échafaudage / Hauteur</div>
+      <button class="btn" onclick="pick('formation',this,'echaf_fixe')">Échafaudage fixe<span class="pr">390 €/pers. · 2j</span></button>
+      <button class="btn" onclick="pick('formation',this,'echaf_roulant')">Échafaudage roulant<span class="pr">210 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'reception')">Réception échafaudage<span class="pr">210 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'harnais')">Hauteur / Harnais<span class="pr">180 €/pers. · 1j</span></button>
+      <div class="cat">Santé & sécurité</div>
+      <button class="btn" onclick="pick('formation',this,'sst_init')">SST Initial<span class="pr">220 €/pers. · 2j</span></button>
+      <button class="btn" onclick="pick('formation',this,'sst_rec')">SST Recyclage<span class="pr">130 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'chsct')">CHSCT / CSSCT<span class="pr">420 €/pers. · 3j</span></button>
+      <div class="cat">Prévention des risques</div>
+      <button class="btn" onclick="pick('formation',this,'aipr')">AIPR Opérateur<span class="pr">190 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'mecanique')">Risque mécanique M0<span class="pr">160 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'atex')">ATEX niveau 0<span class="pr">210 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'silice')">Poussières de silice<span class="pr">180 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'amiante')">Risque amiante<span class="pr">180 €/pers. · 1j</span></button>
+      <div class="cat">Ferroviaire</div>
+      <button class="btn" onclick="pick('formation',this,'ferro_h0')">H0/H0V Non électricien<span class="pr">220 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'ferro_h1')">H1/H1V – H2/H2V – HC<span class="pr">420 €/pers. · 2j</span></button>
+      <button class="btn" onclick="pick('formation',this,'ferro_maint')">Maintenance sous-systèmes<span class="pr">Sur devis · 3-5j</span></button>
+      <div class="cat">Aéronautique</div>
+      <button class="btn" onclick="pick('formation',this,'aero_h0')">H0/H0V Non électricien<span class="pr">260 €/pers. · 1j</span></button>
+      <button class="btn" onclick="pick('formation',this,'aero_b1')">B1/B2/BR/BC<span class="pr">520 €/pers. · 2j</span></button>
     </div>
   </div>
 
-  <div class="g2" style="gap:12px;margin-bottom:12px">
-    <div class="sarea" style="margin:0">
-      <div class="stitle">Financement</div>
-      <div class="cgroup" id="grp-fin">
-        <div class="chip" data-v="opco" onclick="pickChip(this,'fin')">OPCO</div>
-        <div class="chip" data-v="cpf" onclick="pickChip(this,'fin')">CPF</div>
-        <div class="chip" data-v="ft" onclick="pickChip(this,'fin')">France Travail</div>
-        <div class="chip" data-v="region" onclick="pickChip(this,'fin')">Région</div>
-        <div class="chip" data-v="auto" onclick="pickChip(this,'fin')">Autofinancement</div>
-      </div>
-    </div>
-    <div class="sarea" style="margin:0">
-      <div class="stitle">Canal de contact</div>
-      <div class="cgroup" id="grp-canal">
-        <div class="chip" data-v="tel" onclick="pickChip(this,'canal')">Téléphone</div>
-        <div class="chip" data-v="mail" onclick="pickChip(this,'canal')">Email</div>
-      </div>
+  <div class="card">
+    <div class="lbl">Financement</div>
+    <div class="elig-note" id="elig-note"></div>
+    <div class="btns" id="gn">
+      <button class="btn" id="btn-opco"           onclick="pick('financement',this,'opco')">OPCO</button>
+      <button class="btn" id="btn-faf"            onclick="pick('financement',this,'faf')">FAF <small style="opacity:.65;font-size:10px">(artisans / TNS)</small></button>
+      <button class="btn" id="btn-cpf"            onclick="pick('financement',this,'cpf')">CPF</button>
+      <button class="btn" id="btn-france_travail" onclick="pick('financement',this,'france_travail')">France Travail</button>
+      <button class="btn" id="btn-region"         onclick="pick('financement',this,'region')">Région</button>
+      <button class="btn" id="btn-autofinancement" onclick="pick('financement',this,'autofinancement')">Autofinancement</button>
     </div>
   </div>
 
-  <div class="gzone">
-    <div class="gctx" id="gctx"><span style="color:var(--text3);font-weight:400">Sélectionne les 4 critères ci-dessus</span></div>
-    <button class="btn btn-n" onclick="genGuide()">Générer la procédure →</button>
+  <div class="card">
+    <div class="lbl">Canal de contact</div>
+    <div class="btns" id="gc">
+      <button class="btn" onclick="pick('canal',this,'telephone')">Téléphone</button>
+      <button class="btn" onclick="pick('canal',this,'email')">Email</button>
+    </div>
   </div>
-  <div id="gresult"><div class="empty"><div class="eico">↑</div><p>Fais tes choix et génère la procédure</p></div></div>
+
+  <button class="gobtn" id="gobtn" onclick="gen()" disabled>Générer la procédure →</button>
+
+  <div id="result" style="display:none;margin-top:28px">
+    <div class="recap" id="recap"></div>
+    <div id="phases"></div>
+    <div id="docsblock"></div>
+    <div class="q-footer" id="qfooter"></div>
+    <button class="rbtn" onclick="reset()">↺ Recommencer</button>
+  </div>
 </div>
 
-<!-- CATALOGUE -->
-<div id="pg-catalogue" class="pg">
-  <div class="inote">⚠ <div><strong>Tarifs inter-entreprise uniquement.</strong> Pour une session intra (réservée à une seule entreprise), contacter FormaSpark pour un devis personnalisé.</div></div>
-  <div class="csec"><div class="chdr"><span class="cdot"></span>Habilitation électrique</div>
-    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
-      <tr><td>H0-B0 — Non électricien</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">160 €</span></td></tr>
-      <tr><td>B1-B2-H1-H2-BR-BC-V — Électricien</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">320 €</span></td></tr>
-      <tr><td>Recyclage pour électricien</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">180 €</span></td></tr>
-    </tbody></table></div>
-  <div class="csec"><div class="chdr"><span class="cdot"></span>Échafaudage / Travaux en hauteur</div>
-    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
-      <tr><td>Montage échafaudage fixe</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">390 €</span></td></tr>
-      <tr><td>Montage échafaudage roulant</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">210 €</span></td></tr>
-      <tr><td>Réception d'échafaudage</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">210 €</span></td></tr>
-      <tr><td>Travaux en hauteur / Port du harnais</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">180 €</span></td></tr>
-    </tbody></table></div>
-  <div class="csec"><div class="chdr"><span class="cdot"></span>Santé &amp; Sécurité au travail</div>
-    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
-      <tr><td>SST Initial</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">220 €</span></td></tr>
-      <tr><td>SST Recyclage</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">130 €</span></td></tr>
-      <tr><td>CHSCT / CSSCT — Formation membres</td><td><span class="dpill2">3 jours</span></td><td><span class="ptag">420 €</span></td></tr>
-    </tbody></table></div>
-  <div class="csec"><div class="chdr"><span class="cdot"></span>Prévention des risques</div>
-    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
-      <tr><td>AIPR Opérateur</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">190 €</span></td></tr>
-      <tr><td>Risque mécanique M0</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">160 €</span></td></tr>
-      <tr><td>ATEX niveau 0 — Atmosphères explosives</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">210 €</span></td></tr>
-      <tr><td>Poussières de silice</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">180 €</span></td></tr>
-      <tr><td>Sensibilisation risque amiante</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">180 €</span></td></tr>
-    </tbody></table></div>
-  <div class="csec"><div class="chdr"><span class="cdot"></span>Ferroviaire</div>
-    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
-      <tr><td>H0/H0V — Non électricien</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">220 €</span></td></tr>
-      <tr><td>H1/H1V – H2/H2V – HC — Électricien</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">420 €</span></td></tr>
-      <tr><td>Maintenance sous-systèmes Train</td><td><span class="dpill2">3 à 5 jours</span></td><td><span class="ptag" style="color:var(--purple)">Sur devis</span></td></tr>
-    </tbody></table></div>
-  <div class="csec"><div class="chdr"><span class="cdot"></span>Aéronautique</div>
-    <table class="ctbl"><thead><tr><th>Formation</th><th>Durée</th><th>Tarif/participant</th></tr></thead><tbody>
-      <tr><td>H0/H0V — Non électricien</td><td><span class="dpill2">1 jour</span></td><td><span class="ptag">260 €</span></td></tr>
-      <tr><td>B1/B2/BR/BC — Électricien</td><td><span class="dpill2">2 jours</span></td><td><span class="ptag">520 €</span></td></tr>
-    </tbody></table></div>
+<div class="sec" id="t1">
+  <div class="cnote">Tarifs inter-entreprise uniquement. Pour une session intra, contacter FormaSpark pour un devis personnalisé.</div>
+  <div class="cs"><div class="ct">Habilitation électrique</div>
+  <table class="ptbl"><tr><th style="width:58%">Formation</th><th>Durée</th><th>Tarif/pers.</th></tr>
+  <tr><td>H0-B0 — Non électricien</td><td class="dc">1 jour</td><td class="pc">160 €</td></tr>
+  <tr><td>B1-B2-H1-H2-BR-BC-V</td><td class="dc">2 jours</td><td class="pc">320 €</td></tr>
+  <tr><td>Recyclage électricien</td><td class="dc">1 jour</td><td class="pc">180 €</td></tr></table></div>
+  <div class="cs"><div class="ct">Échafaudage / Travaux en hauteur</div>
+  <table class="ptbl"><tr><th style="width:58%">Formation</th><th>Durée</th><th>Tarif/pers.</th></tr>
+  <tr><td>Montage échafaudage fixe</td><td class="dc">2 jours</td><td class="pc">390 €</td></tr>
+  <tr><td>Montage échafaudage roulant</td><td class="dc">1 jour</td><td class="pc">210 €</td></tr>
+  <tr><td>Réception d'échafaudage</td><td class="dc">1 jour</td><td class="pc">210 €</td></tr>
+  <tr><td>Travaux en hauteur / Harnais</td><td class="dc">1 jour</td><td class="pc">180 €</td></tr></table></div>
+  <div class="cs"><div class="ct">Santé & sécurité au travail</div>
+  <table class="ptbl"><tr><th style="width:58%">Formation</th><th>Durée</th><th>Tarif/pers.</th></tr>
+  <tr><td>SST Initial</td><td class="dc">2 jours</td><td class="pc">220 €</td></tr>
+  <tr><td>SST Recyclage</td><td class="dc">1 jour</td><td class="pc">130 €</td></tr>
+  <tr><td>CHSCT / CSSCT</td><td class="dc">3 jours</td><td class="pc">420 €</td></tr></table></div>
+  <div class="cs"><div class="ct">Prévention des risques</div>
+  <table class="ptbl"><tr><th style="width:58%">Formation</th><th>Durée</th><th>Tarif/pers.</th></tr>
+  <tr><td>AIPR Opérateur</td><td class="dc">1 jour</td><td class="pc">190 €</td></tr>
+  <tr><td>Risque mécanique M0</td><td class="dc">1 jour</td><td class="pc">160 €</td></tr>
+  <tr><td>ATEX niveau 0</td><td class="dc">1 jour</td><td class="pc">210 €</td></tr>
+  <tr><td>Poussières de silice</td><td class="dc">1 jour</td><td class="pc">180 €</td></tr>
+  <tr><td>Risque amiante</td><td class="dc">1 jour</td><td class="pc">180 €</td></tr></table></div>
+  <div class="cs"><div class="ct">Ferroviaire</div>
+  <table class="ptbl"><tr><th style="width:58%">Formation</th><th>Durée</th><th>Tarif/pers.</th></tr>
+  <tr><td>H0/H0V — Non électricien</td><td class="dc">1 jour</td><td class="pc">220 €</td></tr>
+  <tr><td>H1/H1V – H2/H2V – HC</td><td class="dc">2 jours</td><td class="pc">420 €</td></tr>
+  <tr><td>Maintenance sous-systèmes Train</td><td class="dc">3 à 5 jours</td><td class="pc">Sur devis</td></tr></table></div>
+  <div class="cs"><div class="ct">Aéronautique</div>
+  <table class="ptbl"><tr><th style="width:58%">Formation</th><th>Durée</th><th>Tarif/pers.</th></tr>
+  <tr><td>H0/H0V — Non électricien</td><td class="dc">1 jour</td><td class="pc">260 €</td></tr>
+  <tr><td>B1/B2/BR/BC — Électricien</td><td class="dc">2 jours</td><td class="pc">520 €</td></tr></table></div>
 </div>
-
 </div>
 
 <script>
+const ST={profil:null,formation:null,financement:null,canal:null};
+let ec=0;
 
-var CAT = {
-  hab_h0b0:{l:"H0-B0 Non électricien",p:160,d:"1 jour"},
-  hab_b1h2:{l:"B1-B2-H1-H2-BR-BC-V",p:320,d:"2 jours"},
-  hab_rec:{l:"Recyclage électricien",p:180,d:"1 jour"},
-  ech_fixe:{l:"Échafaudage fixe",p:390,d:"2 jours"},
-  ech_roul:{l:"Échafaudage roulant",p:210,d:"1 jour"},
-  ech_recep:{l:"Réception échafaudage",p:210,d:"1 jour"},
-  ech_harn:{l:"Hauteur / Harnais",p:180,d:"1 jour"},
-  sst_init:{l:"SST Initial",p:220,d:"2 jours"},
-  sst_rec:{l:"SST Recyclage",p:130,d:"1 jour"},
-  chsct:{l:"CHSCT / CSSCT",p:420,d:"3 jours"},
-  aipr:{l:"AIPR Opérateur",p:190,d:"1 jour"},
-  meca:{l:"Risque mécanique M0",p:160,d:"1 jour"},
-  atex:{l:"ATEX niveau 0",p:210,d:"1 jour"},
-  silice:{l:"Poussières de silice",p:180,d:"1 jour"},
-  amiante:{l:"Risque amiante",p:180,d:"1 jour"},
-  fer_h0:{l:"Ferroviaire H0/H0V",p:220,d:"1 jour"},
-  fer_elec:{l:"Ferroviaire H1-H2-HC",p:420,d:"2 jours"},
-  fer_maint:{l:"Maintenance sous-systèmes",p:0,d:"3-5 jours"},
-  aero_h0:{l:"Aéronautique H0/H0V",p:260,d:"1 jour"},
-  aero_b1:{l:"Aéronautique B1/B2/BR/BC",p:520,d:"2 jours"}
+const LF={H0B0:'H0-B0 Non électricien',B1B2:'B1-B2-H1-H2-BR-BC-V',recyclage:'Recyclage électricien',echaf_fixe:'Échafaudage fixe',echaf_roulant:'Échafaudage roulant',reception:'Réception échafaudage',harnais:'Hauteur / Harnais',sst_init:'SST Initial',sst_rec:'SST Recyclage',chsct:'CHSCT / CSSCT',aipr:'AIPR Opérateur',mecanique:'Risque mécanique M0',atex:'ATEX niveau 0',silice:'Poussières de silice',amiante:'Risque amiante',ferro_h0:'H0/H0V Ferroviaire',ferro_h1:'H1-H2 Ferroviaire',ferro_maint:'Maintenance sous-systèmes Train',aero_h0:'H0/H0V Aéronautique',aero_b1:'B1/B2/BR/BC Aéronautique'};
+const PX={H0B0:'160 €/pers. · 1j',B1B2:'320 €/pers. · 2j',recyclage:'180 €/pers. · 1j',echaf_fixe:'390 €/pers. · 2j',echaf_roulant:'210 €/pers. · 1j',reception:'210 €/pers. · 1j',harnais:'180 €/pers. · 1j',sst_init:'220 €/pers. · 2j',sst_rec:'130 €/pers. · 1j',chsct:'420 €/pers. · 3j',aipr:'190 €/pers. · 1j',mecanique:'160 €/pers. · 1j',atex:'210 €/pers. · 1j',silice:'180 €/pers. · 1j',amiante:'180 €/pers. · 1j',ferro_h0:'220 €/pers. · 1j',ferro_h1:'420 €/pers. · 2j',ferro_maint:'Sur devis · 3-5j',aero_h0:'260 €/pers. · 1j',aero_b1:'520 €/pers. · 2j'};
+const LP={salarie:'Salarié d\'entreprise',demandeur:'Demandeur d\'emploi',tns:'Artisan / TNS',particulier:'Particulier'};
+const LN={opco:'OPCO',faf:'FAF',cpf:'CPF',france_travail:'France Travail',region:'Région',autofinancement:'Autofinancement'};
+
+// Matrice d'éligibilité stricte (sources : Code du travail, réglementation FAF, FT, Région)
+const ELIG={
+  salarie:    {opco:true, faf:false, cpf:true, france_travail:false, region:false, autofinancement:true},
+  demandeur:  {opco:false,faf:false, cpf:true, france_travail:true,  region:true,  autofinancement:true},
+  tns:        {opco:false,faf:true,  cpf:true, france_travail:false, region:false, autofinancement:true},
+  particulier:{opco:false,faf:false, cpf:true, france_travail:false, region:false, autofinancement:true}
 };
-var FLBL = {opco:"OPCO",cpf:"CPF",ft:"France Travail",region:"Région",auto:"Autofinancement"};
-var PLBL = {salarie:"Salarié d'entreprise",demandeur:"Demandeur d'emploi",artisan:"Artisan / TNS",particulier:"Particulier"};
-var picks = {profil:null,form:null,fin:null,canal:null};
+const ELIG_MSG={
+  salarie:    {faf:'Réservé aux artisans et TNS cotisant à la CFP',france_travail:'Réservé aux demandeurs d\'emploi inscrits à France Travail',region:'Réservé aux demandeurs d\'emploi sur prescription habilité'},
+  demandeur:  {opco:'L\'OPCO finance les salariés d\'entreprise',faf:'Réservé aux artisans et TNS cotisant à la CFP'},
+  tns:        {opco:'L\'OPCO finance les salariés. Les TNS relèvent des FAF (FAFCEA, AGEFICE, FIF-PL)',france_travail:'Réservé aux demandeurs d\'emploi inscrits à France Travail',region:'Réservé aux demandeurs d\'emploi sur prescription'},
+  particulier:{opco:'L\'OPCO finance les salariés d\'entreprise',faf:'Réservé aux artisans et TNS cotisant à la CFP',france_travail:'Réservé aux demandeurs d\'emploi inscrits à France Travail',region:'Réservé aux demandeurs d\'emploi sur prescription'}
+};
 
-function goPage(id, btn) {
-  var pages = document.querySelectorAll('.pg');
-  for (var i=0; i<pages.length; i++) pages[i].classList.remove('on');
-  var btns = document.querySelectorAll('.nbtn');
-  for (var i=0; i<btns.length; i++) btns[i].classList.remove('on');
-  document.getElementById('pg-'+id).classList.add('on');
-  btn.classList.add('on');
-  if (id === 'dossiers') renderDossiers();
-  if (id === 'qualiopi') renderChecklist();
+function swTab(i){document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('on',i===j));document.querySelectorAll('.sec').forEach((s,j)=>s.classList.toggle('on',i===j));}
+
+function updateElig(profil){
+  const e=ELIG[profil]; const m=ELIG_MSG[profil]||{};
+  ['opco','faf','cpf','france_travail','region','autofinancement'].forEach(d=>{
+    const btn=document.getElementById('btn-'+d);
+    if(!btn)return;
+    const ok=e[d];
+    btn.disabled=!ok;
+    if(!ok&&ST.financement===d){ST.financement=null;btn.classList.remove('on');}
+  });
+  const msgs=Object.entries(m).map(([d,txt])=>`<strong>${LN[d]}</strong> : ${txt}`).join(' — ');
+  const note=document.getElementById('elig-note');
+  note.innerHTML=msgs; note.style.display=msgs?'block':'none';
 }
 
-function pickChip(el, group) {
-  var grp = document.getElementById('grp-'+group);
-  var chips = grp.querySelectorAll('.chip');
-  for (var i=0; i<chips.length; i++) {
-    chips[i].classList.remove('on','on-fin','on-canal');
-  }
-  if (group === 'fin') el.classList.add('on-fin');
-  else if (group === 'canal') el.classList.add('on-canal');
-  else el.classList.add('on');
-  picks[group] = el.getAttribute('data-v');
-  updateCtx();
+function pick(g,btn,v){
+  if(btn.disabled)return;
+  const gids={profil:'gp',formation:'gf',financement:'gn',canal:'gc'};
+  document.querySelectorAll('#'+gids[g]+' .btn').forEach(b=>{if(!b.disabled)b.classList.remove('on');});
+  btn.classList.add('on'); ST[g]=v;
+  if(g==='profil'){ST.financement=null;document.querySelectorAll('#gn .btn').forEach(b=>b.classList.remove('on'));updateElig(v);}
+  document.getElementById('gobtn').disabled=!(ST.profil&&ST.formation&&ST.financement&&ST.canal);
+  document.getElementById('result').style.display='none';
 }
 
-function pickForm(el) {
-  var target = el;
-  while (target && !target.classList.contains('fchip')) {
-    target = target.parentElement;
-  }
-  if (!target) return;
-  var all = document.querySelectorAll('#grp-form .fchip');
-  for (var i=0; i<all.length; i++) all[i].classList.remove('on');
-  target.classList.add('on');
-  picks.form = target.getAttribute('data-v');
-  updateCtx();
+function reset(){
+  Object.keys(ST).forEach(k=>ST[k]=null);
+  document.querySelectorAll('.btn').forEach(b=>{b.classList.remove('on');b.disabled=false;});
+  document.getElementById('elig-note').style.display='none';
+  document.getElementById('gobtn').disabled=true;
+  document.getElementById('result').style.display='none';
 }
 
-function updateCtx() {
-  var parts = [];
-  if (picks.profil) parts.push(PLBL[picks.profil]);
-  if (picks.form && CAT[picks.form]) {
-    var f = CAT[picks.form];
-    parts.push(f.l + (f.p > 0 ? ' — ' + f.p + '€' : ' — Devis'));
-  }
-  if (picks.fin) parts.push(FLBL[picks.fin]);
-  if (picks.canal) parts.push(picks.canal === 'tel' ? 'Téléphone' : 'Email');
-  var el = document.getElementById('gctx');
-  var colors = ['var(--navy)','var(--purple)','var(--pink)','#065F46'];
-  if (parts.length === 4) {
-    el.innerHTML = parts.map(function(p,i) {
-      return '<strong style="color:' + colors[i] + '">' + p + '</strong>';
-    }).join('<span style="opacity:.3"> · </span>');
+function tog(el){el.classList.toggle('open');}
+function cp(bid,okid){
+  const el=document.getElementById(bid);if(!el)return;
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    const o=document.getElementById(okid);o.style.display='inline';
+    setTimeout(()=>o.style.display='none',2200);
+  });
+}
+
+// ── Constructeurs HTML ──
+function inds(arr){return arr.length?`<div class="badges">${arr.map(i=>`<span class="ind">Ind. ${i}</span>`).join('')}</div>`:'';}
+function qexpl(txt){return `<div class="q-expl">${txt}</div>`;}
+function guide(html){return `<div class="guide"><div class="guide-h">Démarche à effectuer par le client</div><div class="guide-b">${html}</div></div>`;}
+function script(txt){const id='s'+(++ec);return `<div class="script"><div class="script-h"><span>Script téléphonique</span><button class="cbtn" onclick="cp('${id}','ok${id}')" style="font-size:11px;padding:3px 8px">Copier</button></div><div class="script-b" id="${id}">${txt}</div><span class="cpok" id="ok${id}" style="padding:4px 14px;display:none">Copié !</span></div>`;}
+function email(subj,body){const id='e'+(++ec);return `<div class="email"><div class="email-h">Email — FormaSpark → client</div><div class="emeta"><div class="emr">Objet : <span>${subj}</span></div></div><div class="ebody" id="${id}">${body}</div><div class="efoot"><button class="cbtn" onclick="cp('${id}','ok${id}')">Copier</button><span class="cpok" id="ok${id}">Copié !</span></div></div>`;}
+function alrt(txt){return `<div class="alert">${txt}</div>`;}
+function step(n,tit,desc,indArr,extras){
+  return `<div class="step"><div class="snum">${n}</div><div class="stit">${tit}</div>${desc?`<div class="sdesc">${desc}</div>`:''}${inds(indArr||[])}${(extras||[]).join('')}</div>`;
+}
+function phase(num,tit,steps){
+  return `<div class="phase open"><div class="phdr" onclick="tog(this.parentElement)"><div class="pnum">${num}</div><div class="ptit">${tit}</div><div class="parr">▼</div></div><div class="pbody">${steps.join('')}</div></div>`;
+}
+
+// ── CONSTRUCTION DES PHASES ──
+function build(profil,formation,financement,canal){
+  const fn=LF[formation]||formation;
+  const prix=PX[formation]||'';
+  const ff=LN[financement]||financement;
+
+  /* ── PHASE 1 : Premier contact ── */
+  let p1=[];
+  if(canal==='email'){
+    p1.push(step(1,'Accuser réception',
+      'Envoyer un retour sous 4h pour signifier la prise en compte de la demande.',
+      ['4'],[
+      qexpl('<strong>Ind. 4</strong> — L\'OF doit identifier les besoins du bénéficiaire avant toute inscription. L\'accusé de réception ouvre cet échange.'),
+      script('« Bonjour, merci pour votre message. FormaSpark a bien pris en compte votre demande concernant la formation '+fn+'. Nous revenons vers vous très prochainement. »'),
+      email('Votre demande de formation — FormaSpark',
+`Bonjour,
+
+Nous avons bien reçu votre demande concernant la formation ${fn} et reviendrons vers vous très prochainement.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+    p1.push(step(2,'Qualifier le besoin et envoyer le devis',
+      'Préciser le nombre de participants, le calendrier, le financement. Transmettre devis et programme.',
+      ['1','5'],[
+      qexpl('<strong>Ind. 1</strong> — Identifier les objectifs et les besoins de formation avant de proposer l\'offre. <strong>Ind. 5</strong> — Le programme détaillé (objectifs, contenu, durée, modalités d\'évaluation) doit être remis avant l\'entrée en formation.'),
+      email(`Devis & programme — ${fn}`,
+`Bonjour,
+
+Suite à votre demande, veuillez trouver ci-joint notre devis et le programme de la formation ${fn}${prix?' ('+prix+')':''}.
+
+Nous restons disponibles pour toute question.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
   } else {
-    el.innerHTML = '<span style="color:var(--text3);font-weight:400">' + parts.length + '/4 critères sélectionnés</span>';
+    p1.push(step(1,'Rappeler le prospect et qualifier le besoin',
+      'Nombre de participants, calendrier, financement envisagé. Prendre note des informations clés.',
+      ['4'],[
+      qexpl('<strong>Ind. 4</strong> — L\'OF doit identifier les besoins avant toute inscription. L\'appel de qualification est la première étape de ce recueil.'),
+      script('« Bonjour, FormaSpark à l\'appareil. Suite à votre demande concernant la formation '+fn+', je vous contacte pour préciser votre besoin. Combien de participants envisagez-vous ? Quelle période vous conviendrait ? »')
+    ]));
+    p1.push(step(2,'Envoyer le devis et le programme',
+      'Confirmer par écrit à l\'issue de l\'appel.',
+      ['1','5'],[
+      qexpl('<strong>Ind. 1</strong> — Formaliser l\'offre en lien avec les besoins identifiés. <strong>Ind. 5</strong> — Le programme détaillé doit être transmis avant l\'entrée en formation.'),
+      email(`Suite à notre échange — Devis & programme ${fn}`,
+`Bonjour,
+
+Comme convenu lors de notre échange, veuillez trouver ci-joint notre devis et le programme de la formation ${fn}${prix?' ('+prix+')':''}.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
   }
+
+  /* ── PHASE 2 : Positionnement & prérequis ── */
+  const p2=[
+    step(1,'Envoyer la fiche de positionnement pédagogique',
+      'À transmettre avant toute inscription. Évalue le niveau, les attentes et les besoins spécifiques. La réponse signée est archivée dans le dossier stagiaire.',
+      ['4'],[
+      qexpl('<strong>Ind. 4</strong> — L\'OF doit adapter ses actions de formation aux besoins des bénéficiaires. La fiche de positionnement est la pièce justificative de cette individualisation. Elle est obligatoire et doit être archivée.'),
+      email(`Fiche de positionnement — ${fn}`,
+`Bonjour,
+
+Dans le cadre de votre inscription à la formation ${fn}, veuillez trouver ci-joint notre fiche de positionnement pédagogique.
+
+Merci de la compléter et de nous la retourner signée avant le démarrage.
+
+Bien cordialement,
+FormaSpark`)
+    ]),
+    step(2,'Vérifier les prérequis',
+      'Confirmer que le participant satisfait aux prérequis de la formation. En cas de doute, contacter le client avant de valider l\'inscription.',
+      ['4']),
+    step(3,'Recueillir les besoins spécifiques et d\'accessibilité',
+      'Identifier tout besoin lié à un handicap ou une situation particulière. Contacter le référent handicap FormaSpark si nécessaire. Cette étape est obligatoire avant le démarrage.',
+      ['26'],[
+      qexpl('<strong>Ind. 26</strong> — L\'OF doit prendre en compte les besoins des personnes en situation de handicap et proposer des aménagements adaptés. Le référent handicap doit être contacté dès que nécessaire.')
+    ])
+  ];
+
+  /* ── PHASE 3 : Financement ── */
+  let p3=[];
+
+  if(financement==='opco'){
+    p3.push(step(1,'L\'employeur dépose la demande de prise en charge auprès de l\'OPCO',
+      'La demande est portée par l\'entreprise, pas par le salarié. Elle doit être déposée avant le démarrage — délai minimum 5 jours ouvrés.',
+      [],[
+      qexpl('<strong>Obligation Qualiopi</strong> — La convention de formation doit être signée avant tout démarrage. L\'accord OPCO doit être reçu avant l\'entrée en formation. Aucune dérogation n\'est possible sans risquer une non-conformité.'),
+      guide(`<strong>Démarche de l'entreprise :</strong>
+<ol>
+  <li>Identifier l'OPCO compétent : <a href="https://www.trouver-mon-opco.fr" target="_blank">trouver-mon-opco.fr</a></li>
+  <li>Se connecter à l'espace en ligne de l'OPCO et déposer la demande de prise en charge</li>
+  <li>Joindre le devis et le programme FormaSpark au dossier</li>
+  <li>Transmettre l'accord de prise en charge à FormaSpark avant le démarrage</li>
+</ol>
+<strong>OPCO EP</strong> (artisanat, services de proximité) : <span class="ref">09 70 838 837</span> — opcoep.fr<br>
+<strong>Délai impératif :</strong> minimum 5 jours ouvrés avant le démarrage.`),
+      email(`Financement OPCO — Formation ${fn}`,
+`Bonjour,
+
+Pour financer la formation ${fn} via votre OPCO, merci de déposer la demande de prise en charge sur l'espace en ligne de votre OPCO avant le démarrage.
+
+Joignez à votre dossier le devis et le programme que nous vous avons transmis. Le dépôt doit être effectué au minimum 5 jours ouvrés avant le démarrage.
+
+Pour identifier votre OPCO : trouver-mon-opco.fr
+
+Transmettez-nous l'accord de prise en charge dès réception.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+    p3.push(step(2,'Envoyer la convention de formation',
+      'À signer par les deux parties avant tout démarrage, sans exception.',
+      ['2'],[
+      qexpl('<strong>Ind. 2</strong> — La convention de formation (ou contrat de formation pour les particuliers) doit être conclue avant le début de toute action de formation. C\'est un point de non-conformité systématique en audit Qualiopi.'),
+      alrt('Aucune formation ne peut démarrer sans convention signée.'),
+      email(`Convention de formation — ${fn}`,
+`Bonjour,
+
+Vous trouverez ci-joint la convention de formation pour la session ${fn}${prix?' ('+prix+')':''}.
+
+Merci de nous la retourner signée avant le démarrage.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+
+  } else if(financement==='faf'){
+    p3.push(step(1,'Le client identifie son FAF et dépose la demande',
+      'Artisans et TNS cotisent à la CFP via l\'URSSAF. Le FAF compétent dépend de l\'activité. La demande doit être faite avant le démarrage.',
+      [],[
+      qexpl('<strong>Obligation Qualiopi</strong> — L\'accord du FAF doit être obtenu et la convention signée avant tout démarrage de formation. Sans accord, le financement ne peut pas être garanti.'),
+      guide(`<strong>Identifier son FAF selon l'activité :</strong>
+<ul>
+  <li><strong>Artisans</strong> → <a href="https://www.fafcea.com" target="_blank">FAFCEA</a> — dépôt jusqu'au jour J, idéalement 3 mois avant</li>
+  <li><strong>Commerçants / professions libérales non réglementées</strong> → <a href="https://communication-agefice.fr" target="_blank">AGEFICE</a> — minimum 1 mois avant</li>
+  <li><strong>Professions libérales réglementées (CIPAV)</strong> → <a href="https://www.fifpl.fr" target="_blank">FIF-PL</a> — délai : 10 jours après le 1er jour de formation</li>
+</ul>
+<strong>Prérequis :</strong> être à jour de la Contribution à la Formation Professionnelle (CFP) — attestation disponible sur l'espace URSSAF.<br>
+<strong>Dossier :</strong> formulaire FAF + devis FormaSpark + programme. L'OF doit être certifié Qualiopi (c'est le cas de FormaSpark).`),
+      email(`Financement FAF — Formation ${fn}`,
+`Bonjour,
+
+Pour financer votre formation ${fn} via votre Fonds d'Assurance Formation, merci de déposer votre demande de prise en charge auprès de l'organisme compétent :
+
+  Artisans          → FAFCEA (fafcea.com)
+  Commerçants       → AGEFICE (agefice.fr)
+  Prof. libérales   → FIF-PL (fifpl.fr)
+
+Votre attestation de paiement CFP est disponible sur votre espace URSSAF. Joignez le devis et le programme que nous vous avons transmis.
+
+Transmettez-nous l'accord de financement dès réception.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+    p3.push(step(2,'Envoyer la convention de formation',
+      'À signer avant tout démarrage.',
+      ['2'],[
+      qexpl('<strong>Ind. 2</strong> — Convention obligatoire avant tout démarrage de formation.'),
+      alrt('Aucune formation ne peut démarrer sans convention signée.'),
+      email(`Convention de formation — ${fn}`,
+`Bonjour,
+
+Vous trouverez ci-joint la convention de formation pour la session ${fn}${prix?' ('+prix+')':''}.
+
+Merci de nous la retourner signée avant le démarrage.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+
+  } else if(financement==='cpf'){
+    const noteEmployeur=(profil==='salarie')?step('—','Accord employeur si formation sur temps de travail',
+      'Si la formation se déroule en tout ou partie sur le temps de travail, le salarié doit obtenir l\'accord écrit de son employeur au minimum 30 jours avant. Hors temps de travail : aucun accord requis.',
+      [],[
+      qexpl('Art. L6323-17 du Code du travail — L\'employeur dispose de 30 jours pour répondre. Sans réponse dans ce délai, l\'accord est réputé tacite.')
+    ]):null;
+    p3.push(step(1,'Le client crée son dossier sur Mon Compte Formation',
+      'Le CPF est un droit individuel. Le stagiaire doit créer et valider son dossier lui-même. FormaSpark confirme ensuite via l\'espace EDOF. Ticket modérateur de 103,20 € applicable — exonéré si inscrit à France Travail.',
+      [],[
+      qexpl('<strong>Obligation Qualiopi</strong> — La convention est générée automatiquement par la plateforme Mon Compte Formation. FormaSpark doit confirmer le dossier dans un délai de 2 jours ouvrés. Sans confirmation, le dossier est automatiquement annulé.'),
+      guide(`<strong>Démarche du client :</strong>
+<ol>
+  <li>Se connecter sur <a href="https://www.moncompteformation.gouv.fr" target="_blank">moncompteformation.gouv.fr</a> (FranceConnect+ obligatoire)</li>
+  <li>Vérifier le solde disponible</li>
+  <li>Rechercher la formation FormaSpark et valider le dossier en ligne</li>
+</ol>
+Solde insuffisant : paiement du reste à charge en ligne, ou abondement employeur / France Travail.<br>
+Assistance : <span class="ref">09 70 82 35 50</span> (lun–ven 9h–17h)`),
+      email(`Inscription CPF — ${fn}`,
+`Bonjour,
+
+Pour finaliser votre inscription à la formation ${fn} via votre CPF, merci de créer votre dossier sur moncompteformation.gouv.fr.
+
+Une fois validé, nous confirmerons votre inscription de notre côté sous 2 jours ouvrés.
+
+Pour toute question sur votre compte CPF : 09 70 82 35 50 (lun–ven 9h–17h)
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+    if(noteEmployeur) p3.push(noteEmployeur);
+
+  } else if(financement==='france_travail'){
+    p3.push(step(1,'Le client obtient la prescription AIF de son conseiller France Travail',
+      'L\'AIF est conditionnée à la validation du projet dans le PPAE. La demande doit être faite avant le démarrage. Délai de réponse France Travail : 10 jours ouvrés.',
+      [],[
+      qexpl('<strong>Obligation Qualiopi</strong> — L\'accord AIF doit être obtenu avant tout démarrage. La convention de formation doit être signée. FormaSpark saisit le devis dans l\'outil Kairos de France Travail. L\'AIF ne peut pas être accordée a posteriori.'),
+      guide(`<strong>Démarche du client :</strong>
+<ol>
+  <li>Contacter son conseiller France Travail pour intégrer la formation au PPAE</li>
+  <li>Obtenir l'accord de financement AIF</li>
+  <li>Transmettre l'accord à FormaSpark — délai FT : 10 jours ouvrés</li>
+</ol>
+France Travail : <span class="ref">0 800 00 70 70</span> (gratuit) — <a href="https://www.francetravail.fr" target="_blank">francetravail.fr</a><br>
+<strong>Important :</strong> la formation doit être cohérente avec le projet de retour à l'emploi (PPAE).`),
+      email(`Financement France Travail — Formation ${fn}`,
+`Bonjour,
+
+Pour financer votre formation ${fn} via France Travail, merci de contacter votre conseiller afin de valider ce projet dans votre PPAE et d'obtenir un accord AIF.
+
+France Travail : 0 800 00 70 70 — francetravail.fr
+
+Transmettez-nous l'accord dès réception. Nous ne pouvons pas démarrer la formation sans ce document.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+    p3.push(step(2,'Envoyer la convention de formation',
+      'À signer avant tout démarrage, même en financement AIF.',
+      ['2'],[
+      qexpl('<strong>Ind. 2</strong> — Convention obligatoire avant tout démarrage, quel que soit le mode de financement.'),
+      alrt('Aucune formation ne peut démarrer sans convention signée.'),
+      email(`Convention de formation — ${fn}`,
+`Bonjour,
+
+Vous trouverez ci-joint la convention de formation pour la session ${fn}.
+
+Merci de nous la retourner signée avant le démarrage.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+
+  } else if(financement==='region'){
+    p3.push(step(1,'Le client obtient une prescription d\'un organisme habilité par la Région',
+      'Les formations PRF nécessitent une prescription écrite. La formation doit figurer au catalogue régional pour être éligible.',
+      [],[
+      qexpl('<strong>Obligation Qualiopi</strong> — L\'accord de prescription et la convention doivent être en place avant tout démarrage. La formation doit être inscrite au Programme Régional de Formation (PRF) pour être éligible.'),
+      guide(`<strong>Prescripteurs habilités Région Occitanie :</strong>
+<ul>
+  <li>France Travail : <span class="ref">0 800 00 70 70</span></li>
+  <li>Mission Locale (moins de 26 ans)</li>
+  <li>Cap Emploi (situation de handicap)</li>
+  <li>CIDFF, APEC selon le profil</li>
+</ul>
+<a href="https://www.meformerenregion.fr" target="_blank">meformerenregion.fr</a> — Région Occitanie : <span class="ref">0 800 00 70 70</span>`),
+      email(`Financement Région — Formation ${fn}`,
+`Bonjour,
+
+Pour financer votre formation ${fn} dans le cadre du Plan Régional de Formation, merci de contacter un prescripteur habilité (France Travail, Mission Locale, Cap Emploi…) afin d'obtenir une prescription écrite.
+
+Plus d'informations : meformerenregion.fr
+
+Transmettez-nous la prescription reçue pour finaliser votre dossier.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+    p3.push(step(2,'Envoyer la convention de formation',null,['2'],[
+      qexpl('<strong>Ind. 2</strong> — Convention obligatoire avant tout démarrage.'),
+      alrt('Aucune formation ne peut démarrer sans convention signée.'),
+      email(`Convention de formation — ${fn}`,
+`Bonjour,
+
+Vous trouverez ci-joint la convention de formation pour la session ${fn}.
+
+Merci de nous la retourner signée avant le démarrage.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+
+  } else {
+    // Autofinancement
+    p3.push(step(1,'Envoyer la convention de formation',
+      'Le devis ayant été accepté, la convention est le seul document à formaliser avant le démarrage.',
+      ['2'],[
+      qexpl('<strong>Ind. 2</strong> — La convention doit être signée avant tout démarrage. Elle précise l\'objet, le programme, les tarifs, les dates et les modalités de la formation.'),
+      alrt('Aucune formation ne peut démarrer sans convention signée.'),
+      email(`Convention de formation — ${fn}`,
+`Bonjour,
+
+Suite à votre accord sur le devis, veuillez trouver ci-joint la convention de formation pour la session ${fn}${prix?' ('+prix+')':''}.
+
+Merci de nous la retourner signée avant le démarrage.
+
+Bien cordialement,
+FormaSpark`)
+    ]));
+  }
+
+  /* ── PHASE 4 : Avant la formation ── */
+  const p4=[
+    step(1,'Envoyer la convocation individuelle',
+      'Lieu exact, dates, horaires, matériel requis. À transmettre au minimum 5 jours avant le démarrage.',
+      ['5'],[
+      qexpl('<strong>Ind. 5</strong> — L\'OF doit informer le bénéficiaire des modalités pratiques d\'accueil et de déroulement avant l\'entrée en formation : lieu, horaires, accessibilité, contact, règlement intérieur.'),
+      email(`Convocation — ${fn}`,
+`Bonjour,
+
+Nous vous confirmons votre participation à la formation ${fn}.
+
+  Date(s)  : [à compléter]
+  Horaires : [à compléter]
+  Lieu     : [adresse complète]
+  [Matériel ou équipements à apporter si nécessaire]
+
+En cas d'empêchement, merci de nous prévenir dans les meilleurs délais.
+
+Bien cordialement,
+FormaSpark`)
+    ]),
+    step(2,'Recueillir la liste nominative des participants',
+      'Nécessaire pour préparer les feuilles d\'émargement et les attestations. À recevoir au plus tard 48h avant le démarrage.',
+      [])
+  ];
+
+  /* ── PHASE 5 : Pendant la formation ── */
+  const p5=[
+    step(1,'Faire signer les feuilles d\'émargement',
+      'Demi-journée par demi-journée, par chaque stagiaire et le formateur. Les originaux sont conservés par FormaSpark.',
+      ['6'],[
+      qexpl('<strong>Ind. 6</strong> — Les feuilles d\'émargement sont les pièces justificatives de la réalisation de la formation. La signature se fait par demi-journée. Elles sont obligatoires et doivent être archivées.')
+    ]),
+    step(2,'Évaluer les acquis en cours de formation',
+      'Exercices pratiques, QCM ou mises en situation selon le programme. Résultats tracés dans le dossier stagiaire.',
+      ['7'],[
+      qexpl('<strong>Ind. 7</strong> — L\'OF doit évaluer les acquis des bénéficiaires tout au long de la formation. Cette évaluation doit être formalisée et documentée.')
+    ]),
+    step(3,'Gérer les absences',
+      'Toute absence est signalée et documentée. En cas d\'absence significative, vérifier l\'impact sur la délivrance de l\'attestation et informer l\'organisme financeur si nécessaire.',
+      [])
+  ];
+
+  /* ── PHASE 6 : Après la formation ── */
+  const p6=[
+    step(1,'Évaluation des acquis en fin de session',
+      'Bilan final documenté et archivé : test écrit, grille d\'évaluation ou retour oral selon la formation.',
+      ['7'],[
+      qexpl('<strong>Ind. 7</strong> — L\'évaluation finale des acquis est obligatoire. Les résultats doivent être conservés dans le dossier du stagiaire et peuvent être demandés lors d\'un audit.')
+    ]),
+    step(2,'Envoyer l\'attestation individuelle de formation',
+      'Document nominatif remis à chaque participant ayant suivi la formation. Obligatoire.',
+      ['8'],[
+      qexpl('<strong>Ind. 8</strong> — L\'OF doit remettre une attestation individuelle à chaque bénéficiaire à l\'issue de la formation. Ce document certifie la participation et les acquis validés.'),
+      email(`Attestation de formation — ${fn}`,
+`Bonjour,
+
+Vous trouverez ci-joint votre attestation individuelle pour la formation ${fn} du [date].
+
+Bien cordialement,
+FormaSpark`)
+    ]),
+    step(3,'Recueillir la satisfaction à chaud',
+      'Questionnaire transmis dans les 48h suivant la fin de la formation. Résultats archivés et exploités dans le bilan annuel.',
+      ['13'],[
+      qexpl('<strong>Ind. 13</strong> — L\'OF doit recueillir et analyser les appréciations des bénéficiaires. Deux mesures sont requises : à chaud (fin de formation) et à froid (J+30 à J+90). Les résultats contribuent à l\'amélioration continue.'),
+      email(`Votre avis — ${fn}`,
+`Bonjour,
+
+Nous vous remercions pour votre participation à la formation ${fn}.
+
+Afin d'améliorer continuellement nos sessions, merci de compléter notre questionnaire de satisfaction (2 minutes) :
+[lien à compléter]
+
+Bien cordialement,
+FormaSpark`)
+    ]),
+    step(4,'Enquête de satisfaction à froid',
+      'À transmettre entre J+30 et J+90 pour mesurer l\'impact réel sur la pratique professionnelle.',
+      ['13']),
+    step(5,'Facturation',
+      'Émission de la facture selon le mode de financement. Pour OPCO : joindre les feuilles d\'émargement originaux. Pour France Travail (AIF) : joindre feuilles d\'émargement + attestation.',
+      [])
+  ];
+
+  return [
+    phase(1,'Premier contact — '+(canal==='email'?'Email':'Téléphone'),p1),
+    phase(2,'Positionnement & prérequis',p2),
+    phase(3,'Financement : '+ff,p3),
+    phase(4,'Avant la formation',p4),
+    phase(5,'Pendant la formation',p5),
+    phase(6,'Après la formation',p6)
+  ].join('');
 }
 
-function togglePhase(hdr) {
-  hdr.classList.toggle('open');
-  hdr.nextElementSibling.classList.toggle('open');
-}
-
-var PROC = {
-  opco: {
-    steps: [
-      {t:"Identifier l'OPCO",d:"Code NAF/APE de l'entreprise. OPCO EP=BTP/industrie · ATLAS=services · AFDAS=culture.",q:"Ind. 4"},
-      {t:"Vérifier la prise en charge",d:"Portail OPCO, plafonds selon taille entreprise (TPE, PME)."},
-      {t:"Monter le dossier DPC",d:"Programme + devis signé + convention + profil stagiaire. Attendre accord écrit.",w:"Ne jamais démarrer sans accord de prise en charge ÉCRIT de l'OPCO."},
-      {t:"Signer la convention",d:"OF + entreprise. Intitulé, durée, dates, tarif, objectifs, modalités évaluation.",q:"Ind. 1/5"},
-      {t:"Réaliser la formation",d:"Feuilles de présence matin + après-midi, stagiaire ET formateur.",q:"Ind. 10/11"},
-      {t:"Facturer et clôturer",d:"Facture OPCO avec N° dossier + attestation présence + bilan pédagogique.",q:"Ind. 31"}
-    ],
-    docs: ["Devis signé","Convention","Programme daté","Accord OPCO écrit","Feuilles présence","Bilan pédagogique","Facture OPCO"]
-  },
-  cpf: {
-    steps: [
-      {t:"Vérifier référencement MCF",d:"Formation active sur moncompteformation.gouv.fr avec code CPF valide.",q:"Ind. 1"},
-      {t:"Guider l'inscription MCF",d:"Stagiaire connecté avec France Identité. Rechercher FormaSpark, s'inscrire.",s:"« Connectez-vous sur moncompteformation.gouv.fr avec France Identité. Recherchez FormaSpark, sélectionnez la formation et cliquez S'inscrire. »"},
-      {t:"Délai rétractation — 11 jours ouvrés",d:"Aucun démarrage possible avant la fin de ce délai légal.",w:"Démarrer avant le délai = dossier CPF annulé. Attendre la confirmation CDC.",q:"Ind. 12"},
-      {t:"Envoyer la convocation",d:"Lieu, date, horaires, matériel, règlement intérieur.",q:"Ind. 9"},
-      {t:"Réaliser + questionnaire à chaud",d:"Feuilles présence + évaluation acquis + questionnaire satisfaction récupéré.",q:"Ind. 11/31"},
-      {t:"Clôturer sur CDC",d:"Déclarer la réalisation. Inviter le stagiaire à déposer un avis MCF.",q:"Ind. 2/31"}
-    ],
-    docs: ["Inscription CDC","Convocation post-rétractation","Feuilles présence","Attestation","Évaluation à chaud","Avis MCF"]
-  },
-  ft: {
-    steps: [
-      {t:"Vérifier statut DE actif",d:"Inscription France Travail obligatoire. Demander le N° de dossier FT.",s:"« Êtes-vous inscrit à France Travail ? L'AIF doit être prescrite par votre conseiller avant tout démarrage. »",q:"Ind. 4"},
-      {t:"Orienter vers le conseiller FT",d:"Fournir programme + devis au stagiaire pour transmission à son conseiller."},
-      {t:"Attendre la prescription écrite",d:"FT émet un bon de commande ou convention tripartite.",w:"Aucun remboursement sans prescription préalable écrite de France Travail."},
-      {t:"Signer la convention tripartite",d:"FT + FormaSpark + stagiaire. Intitulé, durée, coût, objectifs.",q:"Ind. 1/5"},
-      {t:"Suivi assiduité renforcé",d:"Feuilles présence obligatoires. Informer FT sous 48h en cas d'absence.",q:"Ind. 10/12"},
-      {t:"Facturer France Travail",d:"Facture + feuilles + attestation + bilan pédagogique avec N° dossier.",q:"Ind. 31"}
-    ],
-    docs: ["Prescription AIF FT","Convention tripartite","Programme + devis","Feuilles présence","Attestation","Bilan pédagogique","Facture N° FT"]
-  },
-  region: {
-    steps: [
-      {t:"Veille appels à projets",d:"Site Région Occitanie. Dispositifs ouverts et publics ciblés.",q:"Ind. 22"},
-      {t:"Vérifier l'éligibilité",d:"Certains dispositifs ciblent des publics précis (jeunes, DE longue durée…)."},
-      {t:"Constituer le dossier",d:"Programme, CV formateur, budget, indicateurs selon cahier des charges régional."},
-      {t:"Attendre notification officielle",d:"Ne pas démarrer sans notification écrite.",w:"Aucun engagement sans accord officiel écrit de la Région."},
-      {t:"Signer la convention",d:"Montant, versement, reporting, indicateurs à suivre."},
-      {t:"Bilan et facturation",d:"Rapport final transmis à la Région. Facturation conforme.",q:"Ind. 32"}
-    ],
-    docs: ["Dossier candidature","Convention Région","Cahier des charges","Feuilles présence","Bilan qualitatif","Facture conforme"]
-  },
-  auto: {
-    steps: [
-      {t:"Envoyer le devis sous 24h",d:"Formation, dates, participants. Programme détaillé, tarif TTC/HT.",s:"« Je vous envoie le programme complet et le devis par email dans la journée. »",q:"Ind. 1"},
-      {t:"Signer la convention",d:"Avant tout démarrage. Objectifs, durée, tarif, modalités annulation (CGV).",q:"Ind. 5"},
-      {t:"Envoyer la convocation J-10",d:"Lieu exact, horaires, programme, matériel à apporter, accès.",q:"Ind. 9"},
-      {t:"Réaliser la formation",d:"Feuilles présence + évaluation à chaud.",q:"Ind. 10/11"},
-      {t:"Émettre la facture soldée",d:"Après réalisation. Délai 30 jours max en B2B."},
-      {t:"Archiver 5 ans minimum",d:"Convention, présences, évaluation, attestation, questionnaires, facture.",q:"Ind. 30"}
-    ],
-    docs: ["Devis signé","Convention + CGV","Convocation","Feuilles présence","Attestation","Évaluation à chaud","Facture soldée"]
-  }
+const DOCS={
+  opco:['Devis signé + programme','Accord de prise en charge OPCO (avant démarrage)','Convention de formation signée','Fiche de positionnement signée','Feuilles d\'émargement originaux (demi-journée par demi-journée)','Grilles d\'évaluation des acquis','Attestation individuelle de formation','Facture + émargements pour remboursement OPCO'],
+  faf:['Attestation de paiement CFP (espace URSSAF)','Accord de financement FAF (avant démarrage)','Convention de formation signée','Fiche de positionnement signée','Feuilles d\'émargement originaux','Grilles d\'évaluation des acquis','Attestation individuelle de présence (pour remboursement FAF)'],
+  cpf:['Dossier Mon Compte Formation validé','Convention générée par la plateforme MCF','Fiche de positionnement signée','Feuilles d\'émargement originaux','Grilles d\'évaluation des acquis','Attestation individuelle de formation'],
+  france_travail:['Accord de prescription AIF signé par le conseiller FT','Devis saisi dans l\'outil Kairos','Convention de formation signée','Fiche de positionnement signée','Feuilles d\'émargement originaux','Grilles d\'évaluation des acquis','Attestation + bilan de fin de formation','Facture pour versement AIF'],
+  region:['Prescription écrite d\'un prescripteur habilité','Convention de formation signée','Fiche de positionnement signée','Feuilles d\'émargement originaux','Grilles d\'évaluation des acquis','Attestation individuelle + bilan pédagogique'],
+  autofinancement:['Devis signé','Convention de formation signée','Fiche de positionnement signée','Feuilles d\'émargement originaux','Grilles d\'évaluation des acquis','Attestation individuelle de formation','Facture']
 };
 
-var TEL = [
-  {t:"Décrocher et se présenter",s:"« Bonjour, FormaSpark, [Prénom] à l'appareil — bonjour ! »"},
-  {t:"Écouter et reformuler",d:"Laisser le prospect s'exprimer sans l'interrompre.",s:"« Vous souhaitez une formation en [formation] — c'est pour vous ou vos équipes ? »"},
-  {t:"Qualifier profil et financement",d:"Statut, urgence, dates. Orienter vers le bon financement.",q:"Ind. 4"},
-  {t:"Prendre les coordonnées",d:"Nom, prénom, email, tél, entreprise.",s:"« Je vous envoie le programme et le devis dans la journée. »"}
-];
-var MAIL = [
-  {t:"Accuser réception sous 4h",s:"« Bonjour, merci pour votre message. FormaSpark a bien pris en compte votre demande. Nous revenons vers vous rapidement. »"},
-  {t:"Rappeler pour qualifier",d:"Appeler si possible, sinon envoyer une fiche découverte par email.",q:"Ind. 4"},
-  {t:"Envoyer devis + programme",d:"Programme versionné, tarif TTC/HT, durée, objectifs.",q:"Ind. 1/5"}
-];
-var PPOS = {
-  title:"Prérequis et positionnement", col:"#7B2FBE",
-  steps:[
-    {t:"Vérifier les prérequis",d:"Fiche de positionnement envoyée avant inscription. Archiver la réponse signée.",q:"Ind. 8"},
-    {t:"Informer des conditions",d:"Lieu, horaires, matériel, règlement intérieur FormaSpark.",q:"Ind. 9"},
-    {t:"Besoins spécifiques / handicap",d:"Contacter le référent handicap si besoin.",q:"Ind. 26"}
-  ]
-};
-var PSES = {
-  title:"Pendant la session", col:"#1D9E75",
-  steps:[
-    {t:"Feuilles de présence — OBLIGATOIRE",d:"Signature stagiaire ET formateur, matin + après-midi. Sans feuille = pas de financement.",q:"Ind. 10",w:"Absence non signalée = refus de prise en charge par le financeur."},
-    {t:"Remettre le support pédagogique",d:"Livret FormaSpark distribué en début de session.",q:"Ind. 19"},
-    {t:"Évaluation des acquis",d:"QCM, mise en situation ou oral. Résultat noté et archivé.",q:"Ind. 11"},
-    {t:"Questionnaire à chaud",d:"Distribuer ET récupérer signé en fin de session. Preuve Qualiopi.",q:"Ind. 31"}
-  ]
-};
-var PCLO = {
-  title:"Clôture et archivage", col:"#065F46",
-  steps:[
-    {t:"Attestation individuelle",d:"Nom, prénom, intitulé, durée, dates, résultat, signature FormaSpark.",q:"Ind. 11"},
-    {t:"Certificat / habilitation",d:"Selon la formation, dans les délais réglementaires."},
-    {t:"Évaluation à froid J+30/J+90",d:"Relancer stagiaire ou employeur pour mesurer l'impact.",q:"Ind. 31"},
-    {t:"Archivage 5 ans minimum",d:"Convention, présences, évaluation, attestation, questionnaires, facture.",q:"Ind. 30"}
-  ]
-};
-
-function buildPhase(num, title, col, steps, open) {
-  var h = '<div class="phase">';
-  h += '<div class="phdr ' + (open ? 'open' : '') + '" onclick="togglePhase(this)">';
-  h += '<div class="pnum" style="background:' + col + '">' + num + '</div>';
-  h += '<div class="ptitle">' + title + '</div>';
-  h += '<span class="pchev">&#9654;</span></div>';
-  h += '<div class="pbody ' + (open ? 'open' : '') + '"><div class="slist">';
-  for (var i=0; i<steps.length; i++) {
-    var s = steps[i];
-    h += '<div class="sitem"><div class="sn">' + (i+1) + '</div><div class="sc">';
-    h += '<div class="st">' + s.t + '</div>';
-    if (s.d) h += '<div class="sd">' + s.d + '</div>';
-    if (s.s) h += '<div class="sbox"><span class="slbl">Script</span>' + s.s + '</div>';
-    if (s.w) h += '<div class="wbox">&#9888; ' + s.w + '</div>';
-    if (s.q) h += '<span class="qb">' + s.q + '</span>';
-    h += '</div></div>';
-  }
-  h += '</div></div></div>';
-  return h;
-}
-
-function genGuide() {
-  if (!picks.profil || !picks.form || !picks.fin || !picks.canal) {
-    alert('Sélectionne les 4 critères avant de générer.');
-    return;
-  }
-  var P = PROC[picks.fin];
-  var F = CAT[picks.form];
-  var cs = picks.canal === 'tel' ? TEL : MAIL;
-  var finCols = {opco:'#E0106A',cpf:'#C0147A',ft:'#854F0B',region:'#065F46',auto:'#2D2D8B'};
-  var cTitle = picks.canal === 'tel' ? 'Premier contact — Téléphone' : 'Premier contact — Email';
-
-  var h = '<div class="actx"><span class="adot"></span>';
-  h += '<strong>' + PLBL[picks.profil] + '</strong>';
-  h += '<span style="opacity:.3"> · </span><strong>' + F.l + '</strong>';
-  h += '<span style="opacity:.3"> · </span><strong>' + (F.p > 0 ? F.p + '€/pers. inter' : 'Sur devis') + '</strong>';
-  h += '<span style="opacity:.3"> · </span><strong>' + F.d + '</strong>';
-  h += '<span style="opacity:.3"> · </span><strong>' + FLBL[picks.fin] + '</strong>';
-  h += '</div>';
-
-  if (F.p === 0) {
-    h += '<div class="inote">Cette formation est sur devis. Contacter FormaSpark pour un tarif selon durée et nombre de participants.</div>';
-  }
-
-  h += '<div class="pwrap">';
-  h += buildPhase(1, cTitle, '#2D2D8B', cs, true);
-  h += buildPhase(2, PPOS.title, PPOS.col, PPOS.steps, true);
-  h += buildPhase(3, 'Financement : ' + FLBL[picks.fin], finCols[picks.fin], P.steps, true);
-  h += buildPhase(4, PSES.title, PSES.col, PSES.steps, false);
-  h += buildPhase(5, PCLO.title, PCLO.col, PCLO.steps, false);
-  h += '<div class="drow"><span class="dlbl">Documents</span>';
-  for (var i=0; i<P.docs.length; i++) {
-    h += '<span class="dpill">' + P.docs[i] + '</span>';
-  }
-  h += '</div></div>';
-
-  document.getElementById('gresult').innerHTML = h;
+function gen(){
+  ec=0;
+  const {profil,formation,financement,canal}=ST;
+  document.getElementById('recap').innerHTML=
+    `<div class="rdot"></div>${LP[profil]}<span class="rs">·</span>${LF[formation]}<span class="rs">·</span>${PX[formation]}<span class="rs">·</span>${LN[financement]}<span class="rs">·</span>${canal==='email'?'Email':'Téléphone'}`;
+  document.getElementById('phases').innerHTML=build(profil,formation,financement,canal);
+  const docs=DOCS[financement]||[];
+  document.getElementById('docsblock').innerHTML=`<div class="docs-card"><div class="docs-tit">Documents à constituer & archiver — dossier stagiaire</div>${docs.map(d=>`<div class="di">${d}</div>`).join('')}</div>`;
+  document.getElementById('qfooter').textContent='Référentiel Qualiopi appliqué dans ce process — Ind. 1 (besoins), Ind. 2 (convention), Ind. 4 (positionnement), Ind. 5 (convocation), Ind. 6 (émargements), Ind. 7 (évaluation acquis), Ind. 8 (attestation), Ind. 13 (satisfaction chaud + froid), Ind. 26 (accessibilité).';
+  document.getElementById('result').style.display='block';
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
 }
 </script>
 </body>
