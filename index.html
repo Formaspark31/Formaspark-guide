@@ -605,6 +605,8 @@ function v(id){const el=document.getElementById(id);return el?el.value.trim():''
 function fd(str){if(!str)return'___________';const d=new Date(str);return isNaN(d)?str:d.toLocaleDateString('fr-FR')}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),4000)}
 function calcTotal(){const p=parseFloat(v('cv_prix').replace(/[^0-9.,]/g,'').replace(',','.'))||0;const n=parseInt(v('cv_nb'))||1;if(p>0)document.getElementById('cv_total').value=(p*n).toFixed(2)+' € HT'}
+function calcTVA(prixStr,nbStr){const p=parseFloat((prixStr||'').replace(/[^0-9.,]/g,'').replace(',','.'))||0;const n=parseInt(nbStr)||1;return p>0?((p*n)*0.2).toFixed(2)+' €':'—'}
+function calcTTC(prixStr,nbStr){const p=parseFloat((prixStr||'').replace(/[^0-9.,]/g,'').replace(',','.'))||0;const n=parseInt(nbStr)||1;return p>0?((p*n)*1.2).toFixed(2)+' € TTC':'—'}
 document.getElementById('cv_prix')?.addEventListener('input',calcTotal);
 document.getElementById('cv_nb')?.addEventListener('input',calcTotal);
 // ── CATALOGUE FORMASPARK — Domaines → Formations ──
@@ -717,7 +719,7 @@ function initDomainSelects() {
         opt.value = f.label;
         opt.textContent = f.prixLabel
           ? f.label + ' - ' + f.duree + ' - ' + f.prixLabel
-          : f.label + ' - ' + f.duree + ' - ' + f.prix + ' €';
+          : f.label + ' - ' + f.duree + ' - ' + f.prix + ' € HT';
         formSel.appendChild(opt);
       });
       formSel.disabled = false;
@@ -731,7 +733,7 @@ function initDomainSelects() {
           var dEl = document.getElementById('cv_duree');
           var pEl = document.getElementById('cv_prix');
           if (dEl) dEl.value = info.duree;
-          if (pEl && info.prix) { pEl.value = info.prix + ' €'; calcTotal(); }
+          if (pEl && info.prix) { pEl.value = info.prix + ' € HT'; calcTotal(); }
         }
         if (cbName && window[cbName]) window[cbName]();
       };
@@ -908,8 +910,8 @@ ${row('Raison sociale',v('cv_soc'))}${row('SIRET',v('cv_siret'))}${row('Adresse'
 ${row('Intitulé',v('cv_form'))}${row('Date(s)',v('cv_date'))}${row('Durée',v('cv_duree'))}${row('Lieu',v('cv_lieu'))}${row('Modalités pédagogiques',v('cv_modal'))}${row("Modalités d'évaluation",'QCM / Mise en situation / Évaluation des acquis')}
 <div class="sec">Bénéficiaire(s)</div>
 ${stagRows||row('Bénéficiaire','—')}
-<div class="sec">Conditions financières</div>
-${row('Prix HT / personne',v('cv_prix'))}${row('Nombre de bénéficiaires',v('cv_nb'))}${row('Total HT',v('cv_total')||'—')}${row('TVA','Exonération TVA — Art. 261-4-4° du CGI')}${row('Mode de règlement',v('cv_reglement'))}
+<div class="sec">Conditions financières</div><div style='font-size:11px;color:#666;padding:4px 14px;background:#fffbea;border-bottom:1px solid #e0e0c0;'>Organisme soumis à la TVA — TVA 20% applicable — SIRET FormaSpark</div>
+${row('Prix HT / personne',v('cv_prix'))}${row('Nombre de bénéficiaires',v('cv_nb'))}${row('Total HT',v('cv_total')||'—')}${row('TVA 20%',calcTVA(v('cv_prix'),v('cv_nb')))}${row('Total TTC',calcTTC(v('cv_prix'),v('cv_nb')))}${row('Mode de règlement',v('cv_reglement'))}
 <div class="sec">Conditions générales</div>
 <div class="art"><strong>Art. 1 — Objet :</strong> Formation professionnelle continue — Art. L.6313-1 du Code du travail.</div>
 <div class="art"><strong>Art. 2 — Obligations de FormaSpark :</strong> Dispenser la formation, remettre les supports pédagogiques, établir les feuilles d'émargement, délivrer une attestation individuelle de formation.</div>
@@ -1850,8 +1852,8 @@ ${row('Raison sociale',v('cv_soc'))}${row('SIRET',v('cv_siret'))}${row('Adresse'
 ${row('Intitulé',v('cv_form'))}${row('Date(s)',v('cv_date'))}${row('Durée',v('cv_duree'))}${row('Lieu',v('cv_lieu'))}${row('Modalités',v('cv_modal'))}
 <div class="sec">Bénéficiaire(s)</div>
 ${stagRows||row('Bénéficiaire','—')}
-<div class="sec">Conditions financières</div>
-${row('Prix HT / personne',v('cv_prix'))}${row('Nb de bénéficiaires',v('cv_nb'))}${row('Total HT',v('cv_total')||'—')}${row('TVA','Exonération — Art. 261-4-4° CGI')}${row('Mode de règlement',v('cv_reglement'))}
+<div class="sec">Conditions financières</div><div style='font-size:11px;color:#666;padding:4px 14px;background:#fffbea;border-bottom:1px solid #e0e0c0;'>Organisme soumis à la TVA — TVA 20% applicable — SIRET FormaSpark</div>
+${row('Prix HT / personne',v('cv_prix'))}${row('Nb de bénéficiaires',v('cv_nb'))}${row('Total HT',v('cv_total')||'—')}${row('TVA 20%',calcTVA(v('cv_prix'),v('cv_nb')))}${row('Total TTC',calcTTC(v('cv_prix'),v('cv_nb')))}${row('Mode de règlement',v('cv_reglement'))}
 <div class="sec">Conditions générales</div>
 <div class="art"><b>Art. 1 — Objet :</b> Formation professionnelle continue — Art. L.6313-1 du Code du travail.</div>
 <div class="art"><b>Art. 2 — Obligations de FormaSpark :</b> Dispenser la formation, remettre les supports, établir les feuilles d'émargement, délivrer une attestation individuelle.</div>
